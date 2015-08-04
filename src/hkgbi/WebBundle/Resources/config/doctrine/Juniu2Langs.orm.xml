@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="hkgbi\WebBundle\Entity\Juniu2Langs" table="juniu2_langs">
+    <indexes>
+      <index name="tbl_id" columns="tbl_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="langid" type="string" column="langid" length="32" nullable="false"/>
+    <field name="tbl" type="string" column="tbl" length="100" nullable="false"/>
+    <field name="tblId" type="integer" column="tbl_id" nullable="false"/>
+    <field name="keys" type="string" column="keys" length="100" nullable="false"/>
+    <field name="val" type="string" column="val" length="255" nullable="false"/>
+  </entity>
+</doctrine-mapping>

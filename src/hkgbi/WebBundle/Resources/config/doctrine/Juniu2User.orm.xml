@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="hkgbi\WebBundle\Entity\Juniu2User" table="juniu2_user">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="groupid" type="integer" column="groupid" nullable="false"/>
+    <field name="name" type="string" column="name" length="100" nullable="false"/>
+    <field name="pass" type="string" column="pass" length="50" nullable="false"/>
+    <field name="email" type="string" column="email" length="100" nullable="false"/>
+    <field name="regdate" type="integer" column="regdate" nullable="false"/>
+    <field name="status" type="boolean" column="status" nullable="false"/>
+    <field name="codetime" type="integer" column="codetime" nullable="false"/>
+    <field name="chkcode" type="string" column="chkcode" length="50" nullable="false"/>
+    <field name="thumbId" type="integer" column="thumb_id" nullable="false"/>
+    <field name="rname" type="string" column="rname" length="222" nullable="true"/>
+    <field name="mima" type="string" column="mima" length="222" nullable="true"/>
+    <field name="mobile" type="string" column="mobile" length="255" nullable="true"/>
+    <field name="jb" type="integer" column="jb" nullable="true"/>
+    <field name="ygzj" type="string" column="ygzj" length="233" nullable="true"/>
+  </entity>
+</doctrine-mapping>

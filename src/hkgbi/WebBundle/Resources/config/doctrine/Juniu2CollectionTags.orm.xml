@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="hkgbi\WebBundle\Entity\Juniu2CollectionTags" table="juniu2_collection_tags">
+    <indexes>
+      <index name="cid" columns="cid"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="cid" type="integer" column="cid" nullable="false"/>
+    <field name="title" type="string" column="title" length="200" nullable="false"/>
+    <field name="identifier" type="string" column="identifier" length="100" nullable="false"/>
+    <field name="tagsType" type="string" column="tags_type" nullable="false"/>
+    <field name="rules" type="string" column="rules" length="255" nullable="false"/>
+    <field name="rulesStart" type="string" column="rules_start" length="255" nullable="false"/>
+    <field name="rulesEnd" type="string" column="rules_end" length="255" nullable="false"/>
+    <field name="del" type="text" column="del" nullable="false"/>
+    <field name="delUrl" type="boolean" column="del_url" nullable="false"/>
+    <field name="delHtml" type="boolean" column="del_html" nullable="false"/>
+    <field name="delFont" type="boolean" column="del_font" nullable="false"/>
+    <field name="delTable" type="boolean" column="del_table" nullable="false"/>
+    <field name="delSpan" type="boolean" column="del_span" nullable="false"/>
+    <field name="delBold" type="boolean" column="del_bold" nullable="false"/>
+    <field name="suburlStart" type="string" column="suburl_start" length="255" nullable="false"/>
+    <field name="suburlEnd" type="string" column="suburl_end" length="255" nullable="false"/>
+    <field name="ifsystem" type="string" column="ifsystem" nullable="false"/>
+    <field name="postSave" type="string" column="post_save" nullable="false"/>
+  </entity>
+</doctrine-mapping>

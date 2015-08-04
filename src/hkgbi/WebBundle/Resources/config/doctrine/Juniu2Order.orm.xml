@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="hkgbi\WebBundle\Entity\Juniu2Order" table="juniu2_order">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="otype" type="string" column="otype" nullable="false"/>
+    <field name="sn" type="string" column="sn" length="20" nullable="false"/>
+    <field name="pass" type="string" column="pass" length="50" nullable="false"/>
+    <field name="price" type="float" column="price" precision="10" scale="0" nullable="false"/>
+    <field name="priceCurrency" type="string" column="price_currency" length="5" nullable="false"/>
+    <field name="uid" type="integer" column="uid" nullable="false"/>
+    <field name="email" type="string" column="email" length="50" nullable="false"/>
+    <field name="note" type="string" column="note" length="255" nullable="false"/>
+    <field name="status" type="boolean" column="status" nullable="false"/>
+    <field name="payStatus" type="boolean" column="pay_status" nullable="false"/>
+    <field name="payType" type="integer" column="pay_type" nullable="false"/>
+    <field name="payCode" type="string" column="pay_code" length="100" nullable="false"/>
+    <field name="payPrice" type="float" column="pay_price" precision="10" scale="0" nullable="false"/>
+    <field name="payCurrency" type="string" column="pay_currency" length="5" nullable="false"/>
+    <field name="payDate" type="integer" column="pay_date" nullable="false"/>
+    <field name="postdate" type="integer" column="postdate" nullable="false"/>
+  </entity>
+</doctrine-mapping>

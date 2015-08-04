@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="hkgbi\WebBundle\Entity\Juniu2CollectionFormat" table="juniu2_collection_format">
+    <indexes>
+      <index name="lid" columns="lid"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="lid" type="integer" column="lid" nullable="false"/>
+    <field name="tag" type="string" column="tag" length="100" nullable="false"/>
+    <field name="content" type="text" column="content" nullable="false"/>
+  </entity>
+</doctrine-mapping>

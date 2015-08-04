@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="hkgbi\WebBundle\Entity\Juniu2Reply" table="juniu2_reply">
+    <indexes>
+      <index name="listid" columns="tid,userid"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="tid" type="integer" column="tid" nullable="false"/>
+    <field name="userid" type="integer" column="userid" nullable="false"/>
+    <field name="username" type="string" column="username" length="100" nullable="false"/>
+    <field name="ip" type="string" column="ip" length="30" nullable="false"/>
+    <field name="title" type="string" column="title" length="100" nullable="false"/>
+    <field name="postdate" type="integer" column="postdate" nullable="false"/>
+    <field name="modifydate" type="integer" column="modifydate" nullable="false"/>
+    <field name="status" type="boolean" column="status" nullable="false"/>
+    <field name="ifbest" type="boolean" column="ifbest" nullable="false"/>
+    <field name="content" type="text" column="content" nullable="false"/>
+    <field name="admreply" type="text" column="admreply" nullable="false"/>
+    <field name="replydate" type="integer" column="replydate" nullable="false"/>
+    <field name="star" type="boolean" column="star" nullable="false"/>
+  </entity>
+</doctrine-mapping>
