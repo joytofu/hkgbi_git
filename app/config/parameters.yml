@@ -2,11 +2,12 @@
 parameters:
     database_host: 127.0.0.1
     database_port: null
-    database_name: symfony
+    database_name: hkgbi_git
     database_user: root
     database_password: null
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
     mailer_password: null
+    locale: zh
     secret: 7e646fa9a30044b44c685e25a699ac3b5eda4db4
