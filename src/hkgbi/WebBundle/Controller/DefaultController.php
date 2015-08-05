@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\Query;
+use Symfony\Bridge\Doctrine;
 
 
 class DefaultController extends Controller
@@ -18,12 +19,10 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQueryBuilder('c')
-            ->WHERE('c.identifier >:id')
-            ->setParameter('c.identifier','pros')
-            ->getQuery();
+        $query = $em->createQuery('SELECT j.cateName FROM hkgbiWebBundle:Juniu2Cate j WHERE j.identifier = :id')->setParameter('id','pros');
+        $data = $query->getSingleResult();
+        $res = $data['cateName'];
 
-        $res = $query->getResult();
 
 
         return $this->render('hkgbiWebBundle:Default:index.html.twig', array('res'=>$res));
