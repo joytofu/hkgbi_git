@@ -60,7 +60,7 @@ background:url(kvtb.png) no-repeat 0px 0px; _background:none; _filter:progid:DXI
 
 .ipro{ width:372px; padding-top:10px; padding-left:12px; height:520px; background:url(01bg.jpg) no-repeat; float:left; margin-right:23px; overflow:hidden; margin-bottom:23px;}
 .ipro img{ width:360px; height:200px;}
-.ipro p{ width:360px; height:30px; line-height:30px; padding-top:10px; font-size:17px; text-align:center;}
+.ipro p{ width:360px; height:25px; line-height:20px; padding-top:10px; font-size:17px; text-align:center;}
 .pro_txt{ width:360px; height:50px; line-height:25px; font-size:14px; padding-top:10px; overflow:hidden;}
 #nn{ text-align:left; text-indent:90px;}
 #ipro{ margin-right:0; float:right;}
@@ -74,7 +74,7 @@ background:url(kvtb.png) no-repeat 0px 0px; _background:none; _filter:progid:DXI
 .i_more{ width:100%; padding-top:30px; text-align:right; font-size:14px;}
 
 .index_tu{ min-width:1200px; background:url(tu.jpg) top center; height:400px;}
-.index_tu1{ margin:0 auto; overflow:hidden; padding-top:230px; padding-left:160px;}
+.index_tu1{ margin:0 auto; overflow:hidden; padding-top:230px;}
 .index_1{ padding-top:40px; text-align:center; overflow:hidden; padding-bottom:20px;}
 .index_2{ width:385px;color:#e81d25; margin:0 auto; background:url(w4.jpg) no-repeat; height:34px; line-height:34px; text-align:right; font-size:24px; margin-bottom:20px;}
 .index_tu2{ min-width:1200px; background:url(tu2.jpg) top center; height:250px; text-align:center; padding-top:150px;}
@@ -156,14 +156,18 @@ input{ font-family:"微软雅黑";}
  display: block;
 }
 
-
-
+.nav_type{
+    float:right;
+}
+.li_type{
+    float:left;
+}
 
 .main{ width:1200px; margin:30px auto; overflow:hidden}
 .left{ width:245px; overflow:hidden; float:left;}
 
 .lefttop{ width:245px; font-size:18px;  line-height:45px; height:45px;}
-.leftmain{ width:245px; overflow:hidden; font-size:16px; background:url(leftmain.jpg) no-repeat; padding-top:10px;}
+.leftmain{ width:245px; overflow:hidden; font-size:15px; background:url(leftmain.jpg) no-repeat; padding-top:10px;}
 .leftmain li{ width:245px; float:left; height:43px; background:url(leftli.jpg) center left; background-repeat:no-repeat; border-bottom:1px dashed #dadada; line-height:43px; text-indent:35px;}
 
 .leftmain li a{ width:245px; height:43px; display:block}
@@ -175,7 +179,7 @@ input{ font-family:"微软雅黑";}
 .right{ width:925px; float:right; overflow:hidden}
 .righttop{ width:100%; border-bottom:2px solid #dadada; height:45px; line-height:45px;}
 .ll{ /*width:150px*/; float:left; font-size:18px;}
-.rr{ width:700px; float:right; text-align:right}
+.rr{ /*width:700px*/; float:right; text-align:right}
 .rightmain{ padding-top:15px; line-height:25px; font-size:14px; overflow:hidden; width:100%;}
 .rightmain img{ max-width:100%;}
 
@@ -185,6 +189,6 @@ input{ font-family:"微软雅黑";}
 
 .npop{ color:#F00; text-align:center; font-size:16px; padding-bottom:30px;}
 
-.renz{ width:870px; height:80px; margin:0 auto; margin-top:30px; }
+.renz{ min-width:400px;display:table; height:100px; margin:0 auto; margin-top:26px;background-color: white;box-shadow: 3px 3px 5px rgb(74, 72, 72)  }
 .renz img{ height:57px;}
-.renz li{ float:left; padding-left:16px; text-align:center; line-height:30px;}
+.renz li{ float:left; padding-left:15px; padding-right: 15px text-align:center; line-height:30px;}
