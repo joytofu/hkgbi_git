@@ -1,0 +1,25 @@
+{% extends ":admin:layout_admin.html.twig" %}
+
+
+{% block page_header %}首页{% endblock %}
+{% block content %}
+    <div class="box box-primary" style="width: 50%;margin-left: 23%">
+        <div class="box-header with-border">
+            <h3 class="box-title">个人信息</h3>
+        </div>
+
+        {{ form_start(form) }}
+
+        <div class="box-body">
+            <div class="form-group">
+                {{ form_widget(form.imageFile) }}
+            </div>
+        </div>
+        <div class="box-footer">
+            <button class="btn btn-primary" type="submit" id="_submit" name="_submit" >保存修改</button>
+        </div>
+        {{ form_end(form) }}
+
+    </div>
+{% endblock %}
+

@@ -4,5 +4,5 @@ hkgbi_web:
     prefix:   /
 
 app:
-    resource: "@AppBundle/Controller/"
+    resource: "@hkgbiWebBundle/Controller/"
     type:     annotation

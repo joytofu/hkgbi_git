@@ -6,7 +6,7 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: zh_CN
 
 framework:
     #esi:             ~
@@ -35,6 +35,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form_theme:
+             - 'bootstrap_3_layout.html.twig'
+             - 'form_div_layout.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -83,3 +86,18 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+
+vich_uploader:
+    db_driver: orm
+    twig:      true
+    storage:   file_system # or gaufrette or flysystem
+
+    mappings:
+        upload_image:
+            uri_prefix:         /hkgbi_git/web/img/upload
+            upload_destination: %kernel.root_dir%/../web/bundles/hkgbiweb/images/upload
+            inject_on_load:     false
+            delete_on_update:   false
+            delete_on_remove:   true
+
