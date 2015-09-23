@@ -11,11 +11,13 @@ use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine;
 
 
-
+/**
+ * @Route("/")
+ */
 class DefaultController extends Controller
 {
     /**
-     * @Route("")
+     * @Route("",name="frontend_index")
      */
     public function indexAction()
     {
@@ -37,7 +39,7 @@ class DefaultController extends Controller
 
 
 
-        return $this->render('hkgbiWebBundle:Default:base.html.twig', array(
+        return $this->render('@hkgbiWeb/frontend/base.html.twig', array(
             'site_title'=>$site_title,
             'site_keywords'=>$site_keywords,
             'site_description'=>$site_description,

@@ -18,7 +18,11 @@ class SliderType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options){
         $builder
-            ->add('imageFile','vich_image',array('label'=>'Ê×Ò³»ÃµÆÆ¬','allow_delete'=>'false','required'=>false));
+            ->add('imageFile','vich_image',array(
+                'label'=>'Ê×Ò³»ÃµÆÆ¬',
+                'allow_delete'=>'false',
+                'required'=>false
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

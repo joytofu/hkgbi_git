@@ -2,21 +2,21 @@
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2015-9-22
- * Time: 15:11
+ * Date: 2015-9-23
+ * Time: 13:38
  */
 
 namespace hkgbi\WebBundle\Controller\backend;
 
 use hkgbi\WebBundle\Entity\Slider;
-use hkgbi\WebBundle\Form\SliderType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use hkgbi\WebBundle\Form\SliderType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bridge\Doctrine;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 
 /**
  * @Route("/admin")
@@ -25,30 +25,28 @@ class AdminController extends Controller
 {
     /**
      * @Route("",name="index")
-     * @Method({"GET","POST"})
      */
     public function indexAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
         $form = $this->UploadSliderPics($request);
+        $images = $em->getRepository('hkgbiWebBundle:Slider')->findAll();
+        $count = count($images);
 
-        return $this->render(':admin:index_admin.html.twig',array('form'=>$form->createView()));
+        return $this->render('@hkgbiWeb/backend/index_admin.html.twig',array('form'=>$form->createView(),'images'=>$images,'count'=>$count));
+
     }
 
-    /**
-     * handle uploaded pics
-     * @return \Symfony\Component\Form\Form
-     */
     protected function UploadSliderPics(Request $request){
         $em = $this->getDoctrine()->getManager();
-        $slider = $em->getRepository('hkgbiWebBundle:Slider')->find('1');
+        $slider = new Slider();
         $form = $this->createForm(new SliderType(),$slider);
 
         $form->handleRequest($request);
         if($form->isSubmitted()){
+            $em->persist($slider);
             $em->flush();
         }
-
         return $form;
-
     }
 
 }

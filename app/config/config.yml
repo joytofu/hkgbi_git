@@ -6,11 +6,11 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: zh_CN
+    locale: en
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -30,6 +30,7 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    translator: ~
 
 # Twig Configuration
 twig:
@@ -38,6 +39,7 @@ twig:
     form_theme:
              - 'bootstrap_3_layout.html.twig'
              - 'form_div_layout.html.twig'
+
 
 # Assetic Configuration
 assetic:
@@ -96,9 +98,9 @@ vich_uploader:
 
     mappings:
         upload_image:
-            uri_prefix:         /hkgbi_git/web/img/upload
-            upload_destination: %kernel.root_dir%/../web/bundles/hkgbiweb/images/upload
-            inject_on_load:     false
+            uri_prefix:         /bundles/hkgbiweb/images/upload/notice
+            upload_destination: %kernel.root_dir%/../web/bundles/hkgbiweb/images/upload/notice
+            inject_on_load:     true
             delete_on_update:   false
-            delete_on_remove:   true
+            delete_on_remove:   false
 
