@@ -41,10 +41,9 @@
                     <h3 class="box-title">首页幻灯片</h3>
                 </div>
 
-                {{ form_start(form) }}
 
+             <form name="slider" method="post" action="{{ path('index') }}" enctype="multipart/form-data">
                 <div class="box-body">
-
                     <div class="form-group">
                         <label class="control-label" for="slider_imageFile_file">图片播放器</label>
                         <input type="file" id="slider_imageFile_file" name="slider[imageFile][file]">
@@ -53,7 +52,9 @@
                 <div class="box-footer">
                     <button class="btn btn-primary" type="submit" id="_submit" name="_submit" >保存修改</button>
                 </div>
-                {{ form_widget(form._token) }}
+                {{ form_widget(slider_form._token) }}
+              </form>
+
 
 
 
@@ -74,35 +75,39 @@
                 </div><!-- /.box-header -->
                 <div class="box-body" style="display: none;">
                     <ul>
-                        <li>aaa</li>
-                        <li>bbb</li>
-                        <li>ccc</li>
+                        {% for module in modules %}
+                        <li>{{ module.getName() }}</li>
+                        {% endfor %}
                     </ul>
-                    <button class="btn btn-facebook box-tools pull-right">添加模块</button>
+                    <button class="btn btn-facebook box-tools pull-right" data-toggle="modal" data-target="#new_module" data-whatever="@mdo">添加模块</button>
 
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
         </div>
     </div>
+    <div class="modal fade" id="new_module" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">添加模块</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(module_form) }}
+                        <div class="form-group">
+                            <label class="control-label required" for="form_name">请输入模块名称</label>
+                            {{ form_widget(module_form.name) }}
+                        </div>
+                    {{ form_widget(module_form._token) }}
 
-    <div class="example-modal">
-        <div class="modal modal-primary">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title">Modal Primary</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>One fine body…</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-outline">Save changes</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">确定添加</button>
+                </div>
+                {{ form_end(module_form) }}
+            </div>
+        </div>
     </div>
 
 
