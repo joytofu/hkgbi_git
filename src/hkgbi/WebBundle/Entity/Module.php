@@ -33,6 +33,12 @@ class Module
     protected $name;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $in_menus = false;
+
+
+    /**
      * @ORM\OneToMany(targetEntity="hkgbi\WebBundle\Entity\Category",mappedBy="module",cascade={"persist"})
      */
     private $categories;
@@ -67,4 +73,15 @@ class Module
     {
         return $this->categories;
     }
+
+    public function isInMenus(){
+        return $this->in_menus;
+    }
+
+    public function setInMenus($boolean){
+        $this->in_menus = (Boolean) $boolean;
+        return $this;
+    }
+
+
 }

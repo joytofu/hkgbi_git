@@ -37,8 +37,8 @@
                     <font color="#BF2600"><span style="font-size: 15px; ">繁體中文版</span></font></A></p>
 
             <ul class="nav_type">
-                {% for nav in menu %}
-                <li class="li_type"><a href=""  target="_blank" title= {{ nav.title }} id="menubg">{{ nav.title }}</a></li>
+                {% for module in menu %}
+                <li class="li_type"><a href=""  target="_blank" title= {{ module.name }} id="menubg">{{ nav.title }}</a></li>
                 {% endfor %}
             </ul>
 

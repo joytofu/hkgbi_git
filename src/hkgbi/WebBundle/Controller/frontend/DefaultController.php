@@ -28,7 +28,7 @@ class DefaultController extends Controller
         $site_url = "http://www.hkgbi.com";
 
         $em = $this->getDoctrine()->getManager();
-        $menu = $em->getRepository('hkgbiWebBundle:Juniu2Menu')->findAll();
+        $menu = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('is_menus'=>true));
 
         //footer内容
         $footer = $em->getRepository('hkgbiWebBundle:Juniu2List')->findOneBy(array('identifier'=>'lx'));
