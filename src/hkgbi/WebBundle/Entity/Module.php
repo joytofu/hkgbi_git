@@ -37,6 +37,11 @@ class Module
      */
     protected $in_menus = false;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $identifier;
+
 
     /**
      * @ORM\OneToMany(targetEntity="hkgbi\WebBundle\Entity\Category",mappedBy="module",cascade={"persist"})
@@ -83,5 +88,13 @@ class Module
         return $this;
     }
 
+    public function getIdentifier(){
+        return $this->identifier;
+    }
+
+
+    public function setIdentifier($identifier){
+        $this->identifier = $identifier;
+    }
 
 }

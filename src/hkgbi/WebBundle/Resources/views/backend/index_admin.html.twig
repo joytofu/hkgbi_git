@@ -84,15 +84,10 @@
                         {% for module in modules %}
                         <tr>
                             <td>{{ module.id }}</td>
-                            <form action="{{ path('index') }}" method="post">
-                            <td><input type="text" value="{{ module.name }}" width="5%"></td>
-                                {{ form_widget(module_edit_form._token) }}
-                                <button type="submit">sb</button>
-                            </form>
+                            <td>{{ module.name }}</td>
                             <td>{% if module.inMenus==false %}
                                 <button id="{{ module.id }}" class="btn btn-success">设为菜单</button>
                                     <script>
-
                                         $(document).ready(function(){
                                             $("#{{ module.id }}").click(function(){
                                                 $.ajax({
@@ -101,7 +96,6 @@
                                                     success:function(data){
                                                         var $verified = "<button id='{{ module.id }}' class='btn btn-warning'>取消菜单</button>";
                                                         $("#{{ module.id }}").replaceWith($verified);
-
                                                     }
 
                                                 });
@@ -111,7 +105,6 @@
                                 {% else %}
                                 <button id="{{ module.id }}" value="disable_in_menus" class="btn btn-warning">取消菜单</button>
                                     <script>
-
                                         $(document).ready(function(){
                                             $("#{{ module.id }}").click(function(){
                                                 $.ajax({
@@ -126,6 +119,7 @@
                                         });
                                     </script>
                                 {% endif %}
+                                <a href="javascript:void(0)" onclick="deleteModule({{ module.id }})"><button id="{{ module.id }}" class="btn btn-danger">删除菜单</button></a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -157,8 +151,12 @@
                 <div class="modal-body">
                     {{ form_start(module_form) }}
                         <div class="form-group">
-                            <label class="control-label required" for="form_name">请输入模块名称</label>
+                            <label class="control-label required" for="form_name">模块名称</label>
                             {{ form_widget(module_form.name) }}
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label required" for="form_identifier">模块标识符</label>
+                            {{ form_widget(module_form.identifier) }}
                         </div>
                     {{ form_widget(module_form._token) }}
 
@@ -172,7 +170,17 @@
         </div>
     </div>
 
-    {{ form(module_edit_form) }}
+
 
 {% endblock %}
 
+
+{% block private_js %}
+<script>
+    function deleteModule(id){
+        if(confirm('是否删除该模块？删除后不可恢复！')){
+            window.location.href="{{ app.request.baseurl }}/admin/delete_module/"+id;
+        }
+    }
+</script>
+{% endblock %}

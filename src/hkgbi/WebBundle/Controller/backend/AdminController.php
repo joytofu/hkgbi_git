@@ -11,6 +11,7 @@ namespace hkgbi\WebBundle\Controller\backend;
 use hkgbi\WebBundle\Controller\BaseController;
 use hkgbi\WebBundle\Entity\Slider;
 use hkgbi\WebBundle\Entity\Module;
+use hkgbi\WebBundle\Form\ModuleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,24 +40,10 @@ class AdminController extends BaseController
         $modules = $em->getRepository('hkgbiWebBundle:Module')->findAll();
         $count = count($images);
 
-        $module_edit_form = $this->createFormBuilder($modules)
-            ->add('name','text')
-            ->getForm();
-        $module_edit_form->handleRequest($request);
-        if($module_edit_form->isSubmitted()){
-            print_r($_POST);exit;
-        }
-
-
-
-
-
-
 
         return $this->render('@hkgbiWeb/backend/index_admin.html.twig',array(
             'slider_form'=>$slider_form->createView(),
             'module_form'=>$module_form->createView(),
-            'module_edit_form'=>$module_edit_form->createView(),
             'images'=>$images,
             'modules'=>$modules,
             'count'=>$count));
@@ -78,9 +65,7 @@ class AdminController extends BaseController
     protected function newModule(Request $request){
         $em = $this->getDoctrine()->getManager();
         $module = new Module();
-        $form = $this->createFormBuilder($module)
-            ->add('name','text')
-            ->getForm();
+        $form = $this->createForm(new ModuleType(),$module);
 
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
@@ -89,6 +74,17 @@ class AdminController extends BaseController
 //            return new Response("<script>alert('添加模块成功!')</script>");
         }
         return $form;
+    }
+
+    protected function editModule(Request $request,Module $module){
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new ModuleType(),$module);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->isValid()){
+            $em->flush();
+            return new Response("<script>alert('修改成功!')</script>");
+        }
     }
 
     /**
@@ -113,6 +109,22 @@ class AdminController extends BaseController
         $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('index');
+    }
+
+
+    /**
+     * @Route("/delete_module/{id}", name="delete_module")
+     * @ParamConverter("module", class="hkgbiWebBundle:Module")
+     */
+    public function deleteModule(Module $module){
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($module);
+        $em->flush();
+        echo "<script>alert('删除成功')</script>";
+
+        return $this->redirectToRoute('index');
+
+
     }
 
 }
