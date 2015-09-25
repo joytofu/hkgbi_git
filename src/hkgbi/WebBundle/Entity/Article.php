@@ -37,9 +37,19 @@ class Article
     protected $content;
 
     /**
+     * @ORM\Column(type="datetime",nullable=true)
+     * @var \DateTime
+     */
+    protected $createdAt;
+
+    /**
      * @ORM\ManyToMany(targetEntity="hkgbi\WebBundle\Entity\Category", mappedBy="articles")
      */
     private $categories;
+
+    public function __construct(){
+        $this->createdAt = new \DateTime('now');
+    }
 
     public function getId(){
         return $this->id;
@@ -59,6 +69,14 @@ class Article
 
     public function setContent($content){
         $this->content = $content;
+    }
+
+    public function getCategories(){
+        return $this->categories;
+    }
+
+    public function setCategories($categorise = array()){
+        $this->categories = $categorise;
     }
 
 

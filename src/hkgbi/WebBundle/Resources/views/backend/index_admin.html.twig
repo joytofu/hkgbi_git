@@ -1,6 +1,5 @@
 {% extends "@hkgbiWeb/backend/layout_admin.html.twig" %}
 
-
 {% block page_header %}首页{% endblock %}
 {% block content %}
 
@@ -84,9 +83,45 @@
                         {% for module in modules %}
                         <tr>
                             <td>{{ module.id }}</td>
-                            <td>{{ module.name }}</td>
+                            <td>
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#edit_module_{{ module.id }}" data-whatever="@mdo" >{{ module.name }}</a>
+
+                                {#编辑模块modal框#}
+                                <div class="modal fade" id="edit_module_{{ module.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="exampleModalLabel">修改模块</h4>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <form method="post" action="{{ path('edit_module',{'id':module.id}) }}">
+                                                <div class="form-group">
+                                                    <label class="control-label required">模块名称</label>
+                                                    <input type="text" id="edit_module_name" name="edit_module_name" value="{{ module.name }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label required">模块标识符</label>
+                                                    <input type="text" id="edit_module_identifier" name="edit_module_identifier" value="{{ module.identifier }}">
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                <button type="submit" class="btn btn-primary">保存修改</button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    </div>
+                            </td>
+
+
+
                             <td>{% if module.inMenus==false %}
                                 <button id="{{ module.id }}" class="btn btn-success">设为菜单</button>
+                                    {#设为菜单ajax#}
                                     <script>
                                         $(document).ready(function(){
                                             $("#{{ module.id }}").click(function(){
@@ -104,6 +139,7 @@
                                     </script>
                                 {% else %}
                                 <button id="{{ module.id }}" value="disable_in_menus" class="btn btn-warning">取消菜单</button>
+                                    {#取消菜单ajax#}
                                     <script>
                                         $(document).ready(function(){
                                             $("#{{ module.id }}").click(function(){
@@ -129,18 +165,13 @@
                 <div class="box-footer clearfix">
                     <button class="btn btn-facebook box-tools pull-left" data-toggle="modal" data-target="#new_module" data-whatever="@mdo">添加模块</button>
 
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                        <li><a href="#">«</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">»</a></li>
-                    </ul>
                 </div>
 
             </div>
         </div>
     </div>
+
+    {#添加模块modal框#}
     <div class="modal fade" id="new_module" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -171,11 +202,12 @@
     </div>
 
 
-
 {% endblock %}
 
 
 {% block private_js %}
+
+
 <script>
     function deleteModule(id){
         if(confirm('是否删除该模块？删除后不可恢复！')){

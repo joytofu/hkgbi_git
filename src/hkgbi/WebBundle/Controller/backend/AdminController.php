@@ -76,15 +76,18 @@ class AdminController extends BaseController
         return $form;
     }
 
-    protected function editModule(Request $request,Module $module){
-        $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(new ModuleType(),$module);
 
-        $form->handleRequest($request);
-        if($form->isSubmitted()&&$form->isValid()){
-            $em->flush();
-            return new Response("<script>alert('ÐÞ¸Ä³É¹¦!')</script>");
-        }
+    /**
+     * @Route("/edit_module/{id}", name="edit_module")
+     */
+    public function editModule(Request $request,$id){
+        $em = $this->getDoctrine()->getManager();
+        $module = $em->getRepository('hkgbiWebBundle:Module')->find($id);
+        $module->setName($_POST['edit_module_name']);
+        $module->setIdentifier($_POST['edit_module_identifier']);
+        $em->flush();
+
+        return $this->redirectToRoute('index');
     }
 
     /**
