@@ -28,24 +28,32 @@ class DefaultController extends Controller
         $site_url = "http://www.hkgbi.com";
 
         $em = $this->getDoctrine()->getManager();
-        $menu = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('is_menus'=>true));
+        $menu = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('in_menus'=>true));
 
-        //footer内容
+        /*//footer内容
         $footer = $em->getRepository('hkgbiWebBundle:Juniu2List')->findOneBy(array('identifier'=>'lx'));
         $contact = $footer->getNote();
         $footer = $em->getRepository('hkgbiWebBundle:Juniu2List')->findOneBy(array('identifier'=>'dibu'));
-        $bottom_nav = $footer->getNote();
+        $bottom_nav = $footer->getNote();*/
 
 
-
-
-        return $this->render('@hkgbiWeb/frontend/base.html.twig', array(
+        return $this->render('@hkgbiWeb/frontend/index.html.twig', array(
             'site_title'=>$site_title,
             'site_keywords'=>$site_keywords,
             'site_description'=>$site_description,
             'site_url'=>$site_url,
-            'menu'=>$menu,
-            'contact'=>$contact,
-            'bottom_nav'=>$bottom_nav));
+            'menu'=>$menu
+//            'contact'=>$contact,
+           // 'bottom_nav'=>$bottom_nav
+        ));
+    }
+
+    /**
+     * @Route("getmenu",name="getmenu")
+     */
+    public function getMenuAction(){
+        $em = $this->getDoctrine()->getManager();
+        $menu = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('in_menus'=>true));
+        return $this->render('@hkgbiWeb/frontend/index.html.twig',array('menu'=>$menu));
     }
 }

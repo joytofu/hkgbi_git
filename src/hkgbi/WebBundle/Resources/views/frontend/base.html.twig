@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{% if seo_title is defined %}{{ seo_title }}{% else %}{{ site_title }}{% endif %}</title>
+    <title>{{ render 'frontend_index',{site_title:site_title} }}</title>
     <meta name="keywords" content="{% if seo_keywords is defined %}{{ seo_keywords }}{% else %}{{ site_keywords }}{% endif %}">
     <meta name="description" content="{% if seo_description is defined %}{{ seo_description }}{% else %}{{ site_description }}{% endif %}">
 
@@ -37,7 +37,8 @@
                     <font color="#BF2600"><span style="font-size: 15px; ">繁體中文版</span></font></A></p>
 
             <ul class="nav_type">
-                {% for module in menu %}
+                {{ render(controller('hkgbiWebBundle:frontend/Default:getMenu',{menu:menu})) }}
+                {% for module in menu  %}
                 <li class="li_type"><a href=""  target="_blank" title= {{ module.name }} id="menubg">{{ nav.title }}</a></li>
                 {% endfor %}
             </ul>

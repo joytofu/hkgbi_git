@@ -8,7 +8,6 @@
 
 namespace hkgbi\WebBundle\Controller\backend;
 
-use hkgbi\WebBundle\Controller\BaseController;
 use hkgbi\WebBundle\Entity\Slider;
 use hkgbi\WebBundle\Entity\Module;
 use hkgbi\WebBundle\Form\ModuleType;
@@ -27,8 +26,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 /**
  * @Route("/admin")
  */
-class AdminController extends BaseController
+class AdminController extends Controller
 {
+
+
     /**
      * @Route("",name="index")
      */
