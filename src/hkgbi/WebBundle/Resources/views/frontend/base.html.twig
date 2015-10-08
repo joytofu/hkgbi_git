@@ -3,9 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{{ render 'frontend_index',{site_title:site_title} }}</title>
-    <meta name="keywords" content="{% if seo_keywords is defined %}{{ seo_keywords }}{% else %}{{ site_keywords }}{% endif %}">
-    <meta name="description" content="{% if seo_description is defined %}{{ seo_description }}{% else %}{{ site_description }}{% endif %}">
+    <title></title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
 
     {% block global_css %}
     {% stylesheets '@hkgbiWebBundle/Resources/public/css/*' %}
@@ -25,22 +25,18 @@
 
     {% block private_js %}
     {% endblock %}
-
 </head>
 
 <body>
 <div id="top">
     <div class="top">
-        <div class="logo"><a href="{{ site_url }}" title="{{ site_title }}"><img src="{{ asset('bundles/hkgbiweb/images/logo.jpg') }}"  /></a></div>
-        <div class="rtop"> <p style="margin-bottom:10px; ">  <a href="{{ site_url }}" style="color:#BF2600;font-size: 15px" title="返回首页">返回首页</a>
+        <div class="logo"><a href="" title=""><img src="{{ asset('bundles/hkgbiweb/images/logo.jpg') }}"  /></a></div>
+        <div class="rtop"> <p style="margin-bottom:10px; ">  <a href="" style="color:#BF2600;font-size: 15px" title="返回首页">返回首页</a>
                 <A id=StranLink href="" name=StranLink style="margin-left:10px;" rel="nofollow">
                     <font color="#BF2600"><span style="font-size: 15px; ">繁體中文版</span></font></A></p>
 
             <ul class="nav_type">
-                {{ render(controller('hkgbiWebBundle:frontend/Default:getMenu',{menu:menu})) }}
-                {% for module in menu  %}
-                <li class="li_type"><a href=""  target="_blank" title= {{ module.name }} id="menubg">{{ nav.title }}</a></li>
-                {% endfor %}
+                {{ render(controller('hkgbiWebBundle:frontend/Default:base')) }}
             </ul>
 
         </div>
@@ -55,9 +51,9 @@
 {#footer#}
 {% block footer %}
 <div class="index_2">
-    {{ contact }}</div>
+    </div>
 <div class="foot">
-    {{ bottom_nav|raw }}
+
 </div>
 
 <script language="JavaScript" type="text/javascript">//此转换代码转贴自网络特此说明
@@ -183,7 +179,7 @@
         if(BodyIsFt=="1"){setTimeout("StranBody()",StranIt_Delay)}
     }//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
 </script>
+{% endblock %}
 
 </body>
 </html>
-{% endblock %}
