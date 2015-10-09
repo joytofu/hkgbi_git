@@ -12,8 +12,8 @@
                 </div><!-- /.box-header -->
                 <div class="box-body pad">
                     <form method="post" action="{{ path('createfooter') }}">
-                        <input type="text" placeholder="请输入标题" style="width:300px;height:35px" class="form-group" id="Article_title" name="Article[title]">
-                        <script id="container" name="Article[content]" type="text/plain"></script>
+                        <input type="text" placeholder="请输入标题" style="width:300px;height:35px" class="form-group" id="article_title" name="article[title]">
+                        <script id="container" name="article[content]" type="text/plain"></script>
                         <button class="btn btn-instagram" type="submit">提交</button>
                         {{ form_widget(form._token) }}
                     </form>

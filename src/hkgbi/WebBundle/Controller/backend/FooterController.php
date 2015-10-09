@@ -37,6 +37,7 @@ class FooterController extends Controller
             $article->setModule($footer);
             $em->persist($article);
             $em->flush();
+            return new Response("<script>alert('Ìí¼Ó³É¹¦!')</script>");
         }
 
         return $this->render('@hkgbiWeb/backend/footer/footer.html.twig',array('form'=>$form->createView()));

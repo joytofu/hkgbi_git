@@ -55,4 +55,11 @@ class DefaultController extends Controller
         $menu = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('in_menus'=>true));
         return $this->render('@hkgbiWeb/frontend/nav.html.twig',array('menu'=>$menu));
     }
+
+    public function footerAction(){
+        $em = $this->getDoctrine()->getManager();
+        $contact = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('title'=>'底部联系电话'));
+        $footer = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('title'=>'底部信息'));
+        return $this->render('@hkgbiWeb/frontend/footer.html.twig',array('contact'=>$contact[0],'footer'=>$footer[0]));
+    }
 }

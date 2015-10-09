@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/product.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/admin/AdminLTE.min.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/admin/skins/_all-skins.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/style.css') }}">
     {% endblock %}
 
     {% block private_css %}
@@ -74,11 +75,7 @@
 
 {#footer#}
 {% block footer %}
-<div class="index_2">
-    </div>
-<div class="foot">
-
-</div>
+    {{ render(controller('hkgbiWebBundle:frontend/Default:footer')) }}
 
 <script language="JavaScript" type="text/javascript">//此转换代码转贴自网络特此说明
     var Default_isFT = 0        //默认是否繁体，0-简体，1-繁体
