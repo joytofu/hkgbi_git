@@ -128,7 +128,12 @@ class AdminController extends Controller
 
         return $this->redirectToRoute('index');
 
+    }
 
+    public function navAction(){
+        $em = $this->getDoctrine()->getManager();
+        $menu = $em->getRepository('hkgbiWebBundle:Module')->findAll();
+        return $this->render('@hkgbiWeb/backend/nav.html.twig',array('menu'=>$menu));
     }
 
 }

@@ -48,9 +48,15 @@ class Module
      */
     private $categories;
 
+    /**
+     * @ORM\OneToMany(targetEntity="hkgbi\WebBundle\Entity\Article",mappedBy="module",cascade={"persist"})
+     */
+    protected $articles;
+
 
     public function __construct(){
         $this->categories = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(){
@@ -95,6 +101,20 @@ class Module
 
     public function setIdentifier($identifier){
         $this->identifier = $identifier;
+    }
+
+    public function addArticle(Article $articles){
+        $this->articles[] = $articles;
+        return $this;
+    }
+
+    public function removeStock(Article $articles){
+        $this->articles->removeElement($articles);
+    }
+
+    public function getArticles()
+    {
+        return $this->articles;
     }
 
 }

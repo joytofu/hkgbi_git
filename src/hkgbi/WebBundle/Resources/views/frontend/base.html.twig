@@ -8,9 +8,16 @@
     <meta name="description" content="">
 
     {% block global_css %}
-    {% stylesheets '@hkgbiWebBundle/Resources/public/css/*' %}
-    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
-    {% endstylesheets %}
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/admin/bootstrap.min.css') }}">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/admin/font-awesome.min.css') }}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/admin/ionicons.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/button.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/product.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/admin/AdminLTE.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/admin/skins/_all-skins.min.css') }}">
     {% endblock %}
 
     {% block private_css %}
@@ -18,17 +25,13 @@
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
 
     {% block global_js %}
-        {% javascripts '@hkgbiWebBundle/Resources/public/js/highcharts/jquery-1.8.3.min.js'%}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        <script src="{{ asset('bundles/hkgbiweb/js/admin/jQuery-2.1.4.min.js') }}"></script>
     {% endblock %}
 
-    {% block private_js %}
-    {% endblock %}
 </head>
 
-<body>
-<div id="top">
+<body class="skin-blue layout-top-nav">
+{#<div id="top">
     <div class="top">
         <div class="logo"><a href="" title=""><img src="{{ asset('bundles/hkgbiweb/images/logo.jpg') }}"  /></a></div>
         <div class="rtop"> <p style="margin-bottom:10px; ">  <a href="" style="color:#BF2600;font-size: 15px" title="返回首页">返回首页</a>
@@ -40,7 +43,28 @@
             </ul>
 
         </div>
-    </div></div>
+    </div></div>#}
+
+<header class="main-header">
+    <nav class="navbar navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="javascript:void(0)" class="navbar-brand" style="height:auto;padding:2px"><img src="{{ asset('bundles/hkgbiweb/images/logo.png') }}"></a>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav" style="margin-top:17px;font-size:17px;font-family: 微软雅黑">
+                    {{ render(controller('hkgbiWebBundle:frontend/Default:base')) }}
+                </ul>
+            </div><!-- /.navbar-custom-menu -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
 
 
 {#main content#}
@@ -180,6 +204,7 @@
     }//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
 </script>
 {% endblock %}
-
+{% block private_js %}
+{% endblock %}
 </body>
 </html>

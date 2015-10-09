@@ -47,6 +47,12 @@ class Article
      */
     private $categories;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="hkgbi\WebBundle\Entity\Module",inversedBy="articles")
+     * @ORM\JoinColumn(name="module_id",referencedColumnName="id")
+     */
+    protected $module;
+
     public function __construct(){
         $this->createdAt = new \DateTime('now');
     }
@@ -79,6 +85,13 @@ class Article
         $this->categories = $categorise;
     }
 
+    public function getModule(){
+        return $this->module;
+    }
 
+    public function setModule(Module $module=null){
+        $this->module = $module;
+    }
+    
 
 }
