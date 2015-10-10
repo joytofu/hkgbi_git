@@ -189,7 +189,7 @@
                     </li>
                     <!-- Control Sidebar Toggle Button -->
                     <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                        <a href="{{ path('frontend_index') }}" target="_blank"><i class="fa fa-desktop"></i></a>
                     </li>
                 </ul>
             </div>
@@ -227,7 +227,7 @@
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
                 <li class="header">HEADER</li>
-                <li><a href="#"><i class="fa fa-home"></i> <span>首页</span></a></li>
+                <li><a href="{{ path('index') }}"><i class="fa fa-home"></i> <span>首页</span></a></li>
                 {{ render(controller('hkgbiWebBundle:backend/Admin:nav')) }}
                 <li class="treeview">
                     <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -274,7 +274,7 @@
         <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
     </footer>
 
-    <!-- Control Sidebar -->
+    {#<!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
         <!-- Create the tabs -->
         <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
@@ -335,7 +335,7 @@
     </aside><!-- /.control-sidebar -->
     <!-- Add the sidebar's background. This div must be placed
          immediately after the control sidebar -->
-    <div class="control-sidebar-bg"></div>
+    <div class="control-sidebar-bg"></div>#}
 </div><!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS -->

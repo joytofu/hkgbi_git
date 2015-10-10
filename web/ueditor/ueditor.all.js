@@ -9948,7 +9948,7 @@ var LocalStorage = UE.LocalStorage = (function () {
 UE.plugins['defaultfilter'] = function () {
     var me = this;
     me.setOpt({
-        'allowDivTransToP':true,
+        'allowDivTransToP':false,
         'disabledTableInTable':true
     });
     //默认的过滤处理
@@ -10083,7 +10083,7 @@ UE.plugins['defaultfilter'] = function () {
                     case 'dd':
                         node.tagName = 'li';
                         break;
-                    case 'li':
+                   /* case 'li':
                         var className = node.getAttr('class');
                         if (!className || !/list\-/.test(className)) {
                             node.setAttr()
@@ -10092,7 +10092,7 @@ UE.plugins['defaultfilter'] = function () {
                         UE.utils.each(tmpNodes, function (n) {
                             node.parentNode.insertAfter(n, node);
                         });
-                        break;
+                        break;*/
                     case 'td':
                     case 'th':
                     case 'caption':
@@ -10809,11 +10809,11 @@ UE.plugin.register('background', function () {
 
     function stringToObj(str) {
         var obj = {}, styles = str.split(';');
-        utils.each(styles, function (v) {
+       /* utils.each(styles, function (v) {
             var index = v.indexOf(':'),
                 key = utils.trim(v.substr(0, index)).toLowerCase();
             key && (obj[key] = utils.trim(v.substr(index + 1) || ''));
-        });
+        });*/
         return obj;
     }
 

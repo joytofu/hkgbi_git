@@ -1,0 +1,48 @@
+{% extends "@hkgbiWeb/backend/layout_admin.html.twig" %}
+{% block page_header %}{% if app.request.requestUri=="/admin/createfooter" %}新建底部信息{% else %}修改底部信息{% endif %}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                    </div><!-- /. tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body pad">
+                    <form method="post" action="{{ path('editfooter',{'id':id}) }}">
+                        {{ form_widget(form.title,{'attr':{'style':'width:300px;margin-bottom:10px'}}) }}
+
+                        {#<input type="text" style="width:300px;height:35px" class="form-group" id="article_title" name="article[title]" >#}
+                        <script id="container" name="article[content]" type="text/plain">{{ content|raw }}</script>
+                        <button class="btn btn-instagram" type="submit">提交</button>
+                        {{ form_widget(form._token) }}
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block private_js %}
+    {#富文本编辑器#}
+    <script src="{{ asset('ueditor/ueditor.config.js') }}"></script>
+    <script src="{{ asset('ueditor/ueditor.all.js') }}"></script>
+    <script type="text/javascript">
+        var ue = UE.getEditor('container',{
+            toolbars:[
+                [
+                    'fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold','italic', 'underline',
+                    'strikethrough',  'pasteplain', 'preview', 'removeformat', 'unlink','cleardoc',
+                    'fontfamily', 'fontsize', 'simpleupload', 'insertimage','link','emotion','justifyleft',
+                    'justifyright','justifycenter','justifyjustify', 'forecolor','backcolor', 'attachment',
+                    'imagecenter','autotypeset','inserttable','charts',
+
+                ]
+            ]
+        });
+    </script>
+{% endblock %}

@@ -23,6 +23,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class FooterController extends Controller
 {
     /**
+     * @Route("/footerlist",name="footerlist")
+     */
+    public function footer(){
+        $em = $this->getDoctrine()->getManager();
+        $module = $em->getRepository('hkgbiWebBundle:Module')->find(7);
+        $footers = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('module'=>$module));
+        return $this->render('@hkgbiWeb/backend/footer/footer_list.html.twig',array('footers'=>$footers));
+    }
+
+
+    /**
      * @Route("/createfooter",name="createfooter")
      */
     public function newFooter(Request $request){
@@ -37,15 +48,32 @@ class FooterController extends Controller
             $article->setModule($footer);
             $em->persist($article);
             $em->flush();
-            return new Response("<script>alert('���ӳɹ�!')</script>");
+            return new Response("<script>alert('��ӳɹ�!')</script>");
         }
 
-        return $this->render('@hkgbiWeb/backend/footer/footer.html.twig',array('form'=>$form->createView()));
+        return $this->render('@hkgbiWeb/backend/footer/createfooter.html.twig',array('form'=>$form->createView()));
 
 
     }
 
-    public function editFooter(){
+    /**
+     * @Route("/editfooter/{id}",name="editfooter")
+     * @ParamConverter("article", class="hkgbiWebBundle:Article")
+     * @Method({"POST","GET"})
+     */
+    public function editFooter(Article $article,Request $request,$id){
+        $em = $this->getDoctrine()->getManager();
+        $content = $article->getContent();
+        $form = $this->createForm(new FooterType(),$article);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->isValid()){
+            $em->flush();
+            return new Response("<script>alert('修改成功');window.location.href='/admin/footerlist'</script>");
+        }
+
+        return $this->render('hkgbiWebBundle:backend/footer:editfooter.html.twig',array('form'=>$form->createView(),'id'=>$id,'content'=>$content));
+
 
     }
 
