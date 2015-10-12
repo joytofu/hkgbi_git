@@ -110,7 +110,7 @@ class AdminController extends Controller
     /**
      * @Route("/edit_module/{id}", name="edit_module")
      */
-    public function editModule(Request $request,$id){
+    public function editModule($id){
         $em = $this->getDoctrine()->getManager();
         $module = $em->getRepository('hkgbiWebBundle:Module')->find($id);
         $module->setName($_POST['edit_module_name']);
@@ -129,8 +129,31 @@ class AdminController extends Controller
             $em->persist($category);
             $em->flush();
         }
-
         return $form;
+    }
+
+
+    /**
+     * @Route("/edit_category/{id}", name="edit_category")
+     */
+    public function editCategory($id){
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository('hkgbiWebBundle:Category')->find($id);
+        $category->setName($_POST['edit_category_name']);
+        $em->flush();
+
+        return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/delete_category/{id}",name="delete_category")
+     * @ParamConverter("category", class="hkgbiWebBundle:Category")
+     */
+    public function deleteCategory(Category $category){
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($category);
+        $em->flush();
+        return $this->redirectToRoute('index');
     }
 
     /**

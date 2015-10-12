@@ -10,3 +10,6 @@
  text-align: center;
  font-size: 14px;
 }
+.category:hover{
+ background-color: #67a8ce;
+}
