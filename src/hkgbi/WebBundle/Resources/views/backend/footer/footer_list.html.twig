@@ -18,7 +18,7 @@
                         {#<small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>#}
                         <div class="tools">
                             <a href="{{ path('editfooter',{'id':footer.getId()}) }}"><i class="fa fa-edit" style="font-size:18px"></i></a>
-                            <i class="fa fa-trash-o" style="font-size:18px"></i>
+                            <a href="javascript:void(0)" onclick="deletefooter({{ footer.id }})"><i class="fa fa-trash-o" style="font-size:18px"></i></a>
                         </div>
                     </li>
                         {% endfor %}
@@ -30,4 +30,12 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block private_js %}
+    <script>function deletefooter(id){
+            if(confirm('你确定删除该底部信息吗?')){
+                window.location.href="{{ app.request.baseurl }}/admin/deletefooter/"+id;
+            }
+        }</script>
 {% endblock %}

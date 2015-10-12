@@ -8,8 +8,10 @@
 
 namespace hkgbi\WebBundle\Controller\backend;
 
+use hkgbi\WebBundle\Entity\Category;
 use hkgbi\WebBundle\Entity\Slider;
 use hkgbi\WebBundle\Entity\Module;
+use hkgbi\WebBundle\Form\CategoryType;
 use hkgbi\WebBundle\Form\ModuleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -37,6 +39,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $slider_form = $this->UploadSliderPics($request);
         $module_form = $this->newModule($request);
+        $category_form  = $this->newCategory($request);
         $images = $em->getRepository('hkgbiWebBundle:Slider')->findAll();
         $modules = $em->getRepository('hkgbiWebBundle:Module')->findAll();
         $count = count($images);
@@ -45,9 +48,35 @@ class AdminController extends Controller
         return $this->render('@hkgbiWeb/backend/index_admin.html.twig',array(
             'slider_form'=>$slider_form->createView(),
             'module_form'=>$module_form->createView(),
+            'category_form'=>$category_form->createView(),
             'images'=>$images,
             'modules'=>$modules,
             'count'=>$count));
+    }
+
+    /**
+     * @Route("/module/{module_identifier}",name="redirecttomodule")
+     */
+    public function redirectToModule($module_identifier){
+        switch($module_identifier){
+            case 'notice':
+                break;
+            case 'products':
+                break;
+            case 'service':
+                break;
+            case 'join_us':
+                break;
+            case 'about_us':
+                break;
+            case 'footer':
+                return $this->redirectToRoute('footerlist');
+                break;
+            case 'other_information':
+                break;
+        }
+        return new Response();
+
     }
 
     protected function UploadSliderPics(Request $request){
@@ -72,7 +101,7 @@ class AdminController extends Controller
         if($form->isSubmitted()&&$form->isValid()){
             $em->persist($module);
             $em->flush();
-//            return new Response("<script>alert('添加模块成功!')</script>");
+//            return new Response("<script>alert('娣诲姞妯″潡鎴愬姛!')</script>");
         }
         return $form;
     }
@@ -89,6 +118,19 @@ class AdminController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('index');
+    }
+
+    protected function newCategory(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $category = new Category();
+        $form = $this->createForm(new CategoryType(),$category);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->isValid()){
+            $em->persist($category);
+            $em->flush();
+        }
+
+        return $form;
     }
 
     /**
@@ -124,7 +166,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($module);
         $em->flush();
-        echo "<script>alert('删除成功')</script>";
+        echo "<script>alert('鍒犻櫎鎴愬姛')</script>";
 
         return $this->redirectToRoute('index');
 
@@ -135,5 +177,6 @@ class AdminController extends Controller
         $menu = $em->getRepository('hkgbiWebBundle:Module')->findAll();
         return $this->render('@hkgbiWeb/backend/nav.html.twig',array('menu'=>$menu));
     }
+
 
 }

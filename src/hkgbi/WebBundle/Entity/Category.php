@@ -34,13 +34,13 @@ class Category
      * @ORM\ManyToOne(targetEntity="hkgbi\WebBundle\Entity\Module",inversedBy="categories")
      * @ORM\JoinColumn(name="module_id", referencedColumnName="id")
      */
-    private $module;
+    protected $module;
 
     /**
-     * @ORM\Column(type="integer",nullable=true)
      * @ORM\ManyToOne(targetEntity="hkgbi\WebBundle\Entity\Article",inversedBy="id")
+     * @ORM\JoinColumn(name="article_id",referencedColumnName="id")
      */
-    private $article_id;
+    protected $article_id;
 
     /**
      * @ORM\ManyToMany(targetEntity="hkgbi\WebBundle\Entity\Article", inversedBy="categories")
@@ -49,7 +49,7 @@ class Category
      *      inverseJoinColumns={@ORM\JoinColumn(name="article_id", referencedColumnName="id")}
      * )
      */
-    private $articles;
+    protected $articles;
 
     public function getId(){
         return $this->id;

@@ -48,7 +48,7 @@ class FooterController extends Controller
             $article->setModule($footer);
             $em->persist($article);
             $em->flush();
-            return new Response("<script>alert('��ӳɹ�!')</script>");
+            return new Response("<script>alert('创建底部信息成功!');window.location.href='/footerlist'</script>");
         }
 
         return $this->render('@hkgbiWeb/backend/footer/createfooter.html.twig',array('form'=>$form->createView()));
@@ -77,7 +77,16 @@ class FooterController extends Controller
 
     }
 
-    public function deleteFooter(){
+    /**
+     * @Route("/deletefooter/{id}", name="deletefooter")
+     * @ParamConverter("article", class="hkgbiWebBundle:Article")
+     * @Method({"POST","GET"})
+     */
+    public function deleteFooter(Article $article){
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($article);
+        $em->flush();
+        return $this->redirectToRoute('footerlist');
 
     }
 

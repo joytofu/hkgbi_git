@@ -50,7 +50,7 @@ class DefaultController extends Controller
     }
 
 
-    public function baseAction(){
+    public function navAction(){
         $em = $this->getDoctrine()->getManager();
         $menu = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('in_menus'=>true));
         return $this->render('@hkgbiWeb/frontend/nav.html.twig',array('menu'=>$menu));
