@@ -34,7 +34,7 @@ class FooterController extends Controller
 
 
     /**
-     * @Route("/createfooter",name="createfooter")
+     * @Route("/create_footer",name="create_footer")
      */
     public function newFooter(Request $request){
         $article = new Article();

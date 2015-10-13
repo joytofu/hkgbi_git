@@ -7,6 +7,7 @@
  */
 
 namespace hkgbi\WebBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 /**
@@ -51,6 +52,10 @@ class Category
      */
     protected $articles;
 
+    public function __construct(){
+        $this->articles = new ArrayCollection();
+    }
+
     public function getId(){
         return $this->id;
     }
@@ -69,6 +74,19 @@ class Category
 
     public function setModule(Module $module = null){
         $this->module = $module;
+    }
+
+    public function getArticles(){
+        return $this->articles;
+    }
+
+    public function addArticle(Article $article){
+        $this->articles[] = $article;
+        return $this;
+    }
+
+    public function removeArticle(Article $articles){
+        $this->articles->removeElement($articles);
     }
 
 }

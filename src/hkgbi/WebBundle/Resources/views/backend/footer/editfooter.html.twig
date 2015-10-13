@@ -11,7 +11,7 @@
                     </div><!-- /. tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body pad">
-                    <form method="post" action="{{ path('editfooter',{'id':id}) }}">
+                    <form method="post" action="{{ path('edit_article',{'id':id,'identifier':'footer'}) }}">
                         {{ form_widget(form.title,{'attr':{'style':'width:300px;margin-bottom:10px'}}) }}
 
                         {#<input type="text" style="width:300px;height:35px" class="form-group" id="article_title" name="article[title]" >#}

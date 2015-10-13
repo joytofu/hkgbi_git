@@ -11,13 +11,13 @@
             </div><!-- /.box-header -->
             <div class="box-body">
                 <ul class="todo-list ui-sortable">
-                    {% for footer in footers %}
+                    {% for footer in articles %}
                     <li>
                         <!-- todo text -->
                         <span class="text">{{ footer.title }}</span>
                         {#<small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>#}
                         <div class="tools">
-                            <a href="{{ path('editfooter',{'id':footer.getId()}) }}"><i class="fa fa-edit" style="font-size:18px"></i></a>
+                            <a href="{{ path('edit_article',{'id':footer.getId(),'identifier':'footer'}) }}"><i class="fa fa-edit" style="font-size:18px"></i></a>
                             <a href="javascript:void(0)" onclick="deletefooter({{ footer.id }})"><i class="fa fa-trash-o" style="font-size:18px"></i></a>
                         </div>
                     </li>
@@ -25,7 +25,7 @@
                 </ul>
             </div><!-- /.box-body -->
             <div class="box-footer clearfix no-border">
-                <a href="{{ path('createfooter') }}"><button class="btn btn-default pull-right"><i class="fa fa-plus"></i>添加底部信息</button></a>
+                <a href="{{ path('create_article',{'identifier':'footer'}) }}"><button class="btn btn-default pull-right"><i class="fa fa-plus"></i>添加底部信息</button></a>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
 {% block private_js %}
     <script>function deletefooter(id){
             if(confirm('你确定删除该底部信息吗?')){
-                window.location.href="{{ app.request.baseurl }}/admin/deletefooter/"+id;
+                window.location.href="{{ app.request.baseurl }}/admin/article/footer/delete/"+id;
             }
         }</script>
 {% endblock %}
