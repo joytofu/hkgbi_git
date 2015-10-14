@@ -44,9 +44,9 @@ class Article
     protected $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="hkgbi\WebBundle\Entity\Category", mappedBy="articles")
+     * @ORM\ManyToMany(targetEntity="hkgbi\WebBundle\Entity\Category", mappedBy="articles",cascade={"persist"})
      */
-    private $categories;
+    protected $categories;
 
     /**
      * @ORM\ManyToOne(targetEntity="hkgbi\WebBundle\Entity\Module",inversedBy="articles")
@@ -83,7 +83,7 @@ class Article
         return $this->categories;
     }
 
-    public function addCategory(Category $category){
+    public function setCategories(Category $category){
         $this->categories[] = $category;
         return $this;
     }

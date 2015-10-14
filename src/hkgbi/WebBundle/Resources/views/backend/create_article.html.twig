@@ -1,5 +1,5 @@
 {% extends "@hkgbiWeb/backend/layout_admin.html.twig" %}
-{% block page_header %}{% if app.request.requestUri=="/admin/createfooter" %}ĞÂ½¨µ×²¿ĞÅÏ¢{% else %}ĞŞ¸Äµ×²¿ĞÅÏ¢{% endif %}{% endblock %}
+{% block page_header %}æ–°å»ºä¿¡æ¯{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-md-12">
@@ -11,11 +11,11 @@
                     </div><!-- /. tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body pad">
-                    <form method="post" action="{{ path('create_article',{'identifier':'footer'}) }}">
-                        <input type="text" placeholder="ÇëÊäÈë±êÌâ" style="width:300px;height:35px" class="form-group" id="article_title" name="article[title]">
-                        {{ form_widget(form.categories) }}
+                    <form method="post" action="{{ path('create_article',{'identifier':identifier}) }}">
+                        <input type="text" placeholder="è¯·è¾“å…¥æ ‡é¢˜" style="width:300px;height:35px" class="form-group" id="article_title" name="article[title]">
+                        {{ form_widget(form.categories,{'attr':{'style':'width:20%;display:inline-block'}}) }}
                         <script id="container" name="article[content]" type="text/plain"></script>
-                        <button class="btn btn-instagram" type="submit">Ìá½»</button>
+                        <button class="btn btn-instagram" type="submit">æäº¤</button>
                         {{ form_widget(form._token) }}
                     </form>
                 </div>
@@ -27,7 +27,7 @@
 {% endblock %}
 
 {% block private_js %}
-    {#¸»ÎÄ±¾±à¼­Æ÷#}
+    {#å¯Œæ–‡æœ¬ç¼–è¾‘å™¨#}
     <script src="{{ asset('ueditor/ueditor.config.js') }}"></script>
     <script src="{{ asset('ueditor/ueditor.all.js') }}"></script>
     <script type="text/javascript">

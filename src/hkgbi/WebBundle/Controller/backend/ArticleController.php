@@ -31,14 +31,15 @@ class ArticleController extends Controller
         $em = $this->getDoctrine()->getManager();
         $article_obj = new Article();
         $module_obj = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('identifier' => $identifier));
-        $form = $this->createForm(new ArticleType(), $article_obj);
+        $form = $this->createForm(new ArticleType($module_obj[0]), $article_obj);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $article_obj->setModule($module_obj);
+        if ($form->isSubmitted()) {
+            $article_obj->setModule($module_obj[0]);
             $em->persist($article_obj);
             $em->flush();
+            return new Response("<script>alert('添加信息成功!');window.location.href='/admin/article/$identifier/list';</script>");
         }
-        return $this->render('hkgbiWebBundle:backend/'.$identifier.':create'.$identifier.'.html.twig',array('form'=>$form->createView()));
+        return $this->render('hkgbiWebBundle:backend:create_article.html.twig',array('form'=>$form->createView(),'identifier'=>$identifier));
     }
 
     /**
