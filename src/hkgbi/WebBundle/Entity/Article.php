@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * Article
@@ -44,9 +45,10 @@ class Article
     protected $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="hkgbi\WebBundle\Entity\Category", mappedBy="articles",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="hkgbi\WebBundle\Entity\Category", inversedBy="articles",cascade={"persist"})
+     * @ORM\JoinColumn(name="cate_id",referencedColumnName="id")
      */
-    protected $categories;
+    protected $category;
 
     /**
      * @ORM\ManyToOne(targetEntity="hkgbi\WebBundle\Entity\Module",inversedBy="articles")
@@ -79,19 +81,14 @@ class Article
         $this->content = $content;
     }
 
-    public function getCategories(){
-        return $this->categories;
+    public function getCategory(){
+        return $this->category;
     }
 
-    public function setCategories(Category $category){
-        $this->categories[] = $category;
-        return $this;
+    public function setCategory(Category $category){
+        $this->category = $category;
     }
 
-    public function removeCategory(Category $categories){
-        $this->categories->removeElement($categories);
-
-    }
 
     public function getModule(){
         return $this->module;

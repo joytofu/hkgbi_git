@@ -25,6 +25,7 @@ class ArticleController extends Controller
 {
     /**
      * @Route("/{identifier}/create",name="create_article")
+     * @Method({"POST","GET"})
      */
     public function createArticle(Request $request,$identifier)
     {
@@ -35,6 +36,10 @@ class ArticleController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $article_obj->setModule($module_obj[0]);
+            if($_POST['article']['categories']){
+                $category_obj = $em->getRepository('hkgbiWebBundle:Category')->find($_POST['article']['categories']);
+            }
+            $article_obj->setCategories($category_obj);
             $em->persist($article_obj);
             $em->flush();
             return new Response("<script>alert('添加信息成功!');window.location.href='/admin/article/$identifier/list';</script>");
@@ -48,13 +53,17 @@ class ArticleController extends Controller
      */
     public function editArticle(Article $article,Request $request,$identifier,$id){
         $em = $this->getDoctrine()->getManager();
-        $content = $article->getContent();
-        $form = $this->createForm(new ArticleType(),$article);
+        $module_obj = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('identifier' => $identifier));
+        $form = $this->createForm(new ArticleType($module_obj[0]),$article);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
             $em->flush();
         }
-        return $this->render('hkgbiWebBundle:backend/'.$identifier.':edit'.$identifier.'.html.twig',array('content'=>$content,'form'=>$form->createView(),'id'=>$id));
+        return $this->render('hkgbiWebBundle:backend:edit_article.html.twig',array(
+            'article'=>$article,
+            'form'=>$form->createView(),
+            'id'=>$id,
+            'identifier'=>$identifier));
     }
 
     /**
@@ -63,8 +72,13 @@ class ArticleController extends Controller
     public function articleList($identifier){
         $em = $this->getDoctrine()->getManager();
         $module_obj = $this->getModuleObj($identifier);
+        $module = $module_obj[0]->getName();
         $articles = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('module' => $module_obj));
-        return $this->render('hkgbiWebBundle:backend/'.$identifier.':'.$identifier.'_list.html.twig',array('articles'=>$articles));
+        return $this->render('hkgbiWebBundle:backend:article_list.html.twig',array(
+            'articles'=>$articles,
+            'identifier'=>$identifier,
+            'module'=>$module
+            ));
     }
 
     /**

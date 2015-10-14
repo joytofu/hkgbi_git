@@ -1,0 +1,41 @@
+{% extends "@hkgbiWeb/backend/layout_admin.html.twig" %}
+
+{% block page_header %}{{ module }}{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="ion ion-clipboard"></i>
+                <h3 class="box-title">{{ module }}文章列表</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <ul class="todo-list ui-sortable">
+                    {% for article in articles %}
+                    <li>
+                        <!-- todo text -->
+                        <span class="text">{{ article.title }}</span>
+                        {#<small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>#}
+                        <div class="tools">
+                            <a href="{{ path('edit_article',{'id':article.getId(),'identifier':identifier}) }}"><i class="fa fa-edit" style="font-size:18px"></i></a>
+                            <a href="javascript:void(0)" onclick="deletearticle({{ article.id }})"><i class="fa fa-trash-o" style="font-size:18px"></i></a>
+                        </div>
+                    </li>
+                        {% endfor %}
+                </ul>
+            </div><!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+                <a href="{{ path('create_article',{'identifier':identifier}) }}"><button class="btn btn-default pull-right"><i class="fa fa-plus"></i>添加信息</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block private_js %}
+    <script>function deletearticle(id){
+            if(confirm('你确定删除该信息吗?')){
+                window.location.href="{{ app.request.baseurl }}/admin/article/{{ identifier }}/delete/"+id;
+            }
+        }</script>
+{% endblock %}

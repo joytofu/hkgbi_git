@@ -39,11 +39,7 @@ class Category
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="hkgbi\WebBundle\Entity\Article", inversedBy="categories",cascade={"persist"})
-     * @ORM\JoinTable(name="categories_articles",
-     *      joinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="article_id", referencedColumnName="id")}
-     * )
+     * @ORM\OneToMany(targetEntity="hkgbi\WebBundle\Entity\Article", mappedBy="category",cascade={"persist"})
      */
     protected $articles;
 
@@ -75,7 +71,7 @@ class Category
         return $this->articles;
     }
 
-    public function setArticles(Article $article){
+    public function addArticles(Article $article){
         $this->articles[] = $article;
         return $this;
     }
