@@ -39,7 +39,7 @@ class ArticleController extends Controller
             if($_POST['article']['categories']){
                 $category_obj = $em->getRepository('hkgbiWebBundle:Category')->find($_POST['article']['categories']);
             }
-            $article_obj->setCategories($category_obj);
+            $article_obj->setCategory($category_obj);
             $em->persist($article_obj);
             $em->flush();
             return new Response("<script>alert('添加信息成功!');window.location.href='/admin/article/$identifier/list';</script>");
@@ -54,15 +54,24 @@ class ArticleController extends Controller
     public function editArticle(Article $article,Request $request,$identifier,$id){
         $em = $this->getDoctrine()->getManager();
         $module_obj = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('identifier' => $identifier));
+        $categories = $module_obj[0]->getCategories();
+        $cate_id = null;
+        if($article->getCategory()){
+            $cate_id = $article->getCategory()->getId();
+        }
         $form = $this->createForm(new ArticleType($module_obj[0]),$article);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
             $em->flush();
+            $article_list_url = $this->generateUrl('article_list',array('identifier'=>$identifier));
+            return new Response("<script>alert('修改成功!');window.location.href='$article_list_url'</script>");
         }
         return $this->render('hkgbiWebBundle:backend:edit_article.html.twig',array(
             'article'=>$article,
             'form'=>$form->createView(),
             'id'=>$id,
+            'categories'=>$categories,
+            'cate_id'=>$cate_id,
             'identifier'=>$identifier));
     }
 
@@ -70,12 +79,25 @@ class ArticleController extends Controller
      * @Route("/{identifier}/list",name="article_list")
      */
     public function articleList($identifier){
-        $em = $this->getDoctrine()->getManager();
+
         $module_obj = $this->getModuleObj($identifier);
-        $module = $module_obj[0]->getName();
-        $articles = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('module' => $module_obj));
+        $module = $module_obj->getName();
+        $articles_array = array();
+        $no_cate_articles = array();
+
+        $categories = $module_obj->getCategories();
+        if($categories[0]){
+            foreach($categories as $category){
+                $articles_array[] = $category->getArticles();
+            }
+        }else{
+            $no_cate_articles = $module_obj->getArticles();
+        }
+        //$articles = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('module' => $module_obj));
         return $this->render('hkgbiWebBundle:backend:article_list.html.twig',array(
-            'articles'=>$articles,
+            'articles_array'=>$articles_array,
+            'no_cate_articles'=>$no_cate_articles,
+            'categories'=>$categories,
             'identifier'=>$identifier,
             'module'=>$module
             ));
@@ -93,7 +115,9 @@ class ArticleController extends Controller
     }
 
     protected function getModuleObj($module_identifier){
-     return  $module_obj = $this->getDoctrine()->getRepository('hkgbiWebBundle:Module')->findBy(array('identifier'=>$module_identifier));
+      $module_array = $this->getDoctrine()->getRepository('hkgbiWebBundle:Module')->findBy(array('identifier'=>$module_identifier));
+        return $module_obj = $module_array[0];
+
     }
 
 

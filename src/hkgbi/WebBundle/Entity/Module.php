@@ -108,7 +108,7 @@ class Module
         return $this;
     }
 
-    public function removeStock(Article $articles){
+    public function removeArticle(Article $articles){
         $this->articles->removeElement($articles);
     }
 

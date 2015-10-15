@@ -13,7 +13,17 @@
                 <div class="box-body pad">
                     <form method="post" action="{{ path('edit_article',{'id':id,'identifier':identifier}) }}">
                         <input type="text" placeholder="请输入标题" style="width:300px;height:35px" class="form-group" id="article_title" name="article[title]" value="{{ article.getTitle() }}">
+                        {% if cate_id is not null %}
                         {{ form_widget(form.categories,{'attr':{'style':'width:20%;display:inline-block'}}) }}
+                        {% else %}
+                        {% endif %}
+                        <script>
+                            $('option').each(function(){
+                                if($(this).val()=="{{ cate_id }}"){
+                                    $(this).attr('selected','selected')
+                                }
+                            });
+                        </script>
                         <script id="container" name="article[content]" type="text/plain">{{ article.getContent()|raw }}</script>
                         <button class="btn btn-instagram" type="submit">提交</button>
                         {{ form_widget(form._token) }}

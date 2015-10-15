@@ -4,15 +4,30 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <div class="box box-primary">
             <div class="box-header">
                 <i class="ion ion-clipboard"></i>
                 <h3 class="box-title">{{ module }}文章列表</h3>
             </div><!-- /.box-header -->
-            <div class="box-body">
-                <ul class="todo-list ui-sortable">
-                    {% for article in articles %}
-                    <li>
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                {% if categories[0] is defined and categories[0] is not null %}
+                {% set i=1 %}
+                {% for category in categories %}
+                    <li {% if i==1 %}class="active"{% endif %}{% if category.getName()=='文件下载' or category.getName()=='软件下载' %}id="download"{% endif %}><a href="#tab_{{ i }}" data-toggle="tab">{{ category.getName() }}</a></li>
+                    {% set i=i+1 %}
+                {% endfor %}
+                {% else %}
+                {% endif %}
+            </ul>
+             <div class="tab-content">
+                 {% if categories[0] is defined and categories[0] is not null  %}
+                 {% set j=1 %}
+                 {% for  articles in articles_array%}
+                  <div class="tab-pane {% if j==1 %}active{% endif %}" id="tab_{{ j }}">
+                     <div class="box-body">
+                       <ul class="todo-list ui-sortable">
+                         {% for article in articles %}
+                           <li>
                         <!-- todo text -->
                         <span class="text">{{ article.title }}</span>
                         {#<small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>#}
@@ -21,13 +36,37 @@
                             <a href="javascript:void(0)" onclick="deletearticle({{ article.id }})"><i class="fa fa-trash-o" style="font-size:18px"></i></a>
                         </div>
                     </li>
-                        {% endfor %}
-                </ul>
-            </div><!-- /.box-body -->
+                         {% endfor %}
+                       </ul>
+                      </div><!-- /.box-body -->
+                  </div>
+                     {% set j=j+1 %}
+                 {% endfor %}
+                 {% else %}
+                     <div class="box-body">
+                         <ul class="todo-list ui-sortable">
+                             {% for article in no_cate_articles %}
+                                 <li>
+                                     <!-- todo text -->
+                                     <span class="text">{{ article.title }}</span>
+                                     {#<small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>#}
+                                     <div class="tools">
+                                         <a href="{{ path('edit_article',{'id':article.getId(),'identifier':identifier}) }}"><i class="fa fa-edit" style="font-size:18px"></i></a>
+                                         <a href="javascript:void(0)" onclick="deletearticle({{ article.id }})"><i class="fa fa-trash-o" style="font-size:18px"></i></a>
+                                     </div>
+                                 </li>
+                             {% endfor %}
+
+                         </ul>
+                     </div>
+                 {% endif %}
             <div class="box-footer clearfix no-border">
-                <a href="{{ path('create_article',{'identifier':identifier}) }}"><button class="btn btn-default pull-right"><i class="fa fa-plus"></i>添加信息</button></a>
+                <a href="{{ path('create_article',{'identifier':identifier}) }}"><button class="btn btn-default pull-right" id="add"><i class="fa fa-plus"></i>添加信息</button></a>
+            </div>
+                 
             </div>
         </div>
+
     </div>
 </div>
 {% endblock %}
@@ -37,5 +76,6 @@
             if(confirm('你确定删除该信息吗?')){
                 window.location.href="{{ app.request.baseurl }}/admin/article/{{ identifier }}/delete/"+id;
             }
-        }</script>
+        }
+    </script>
 {% endblock %}
