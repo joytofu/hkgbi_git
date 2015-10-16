@@ -13,10 +13,14 @@
                 {% if categories[0] is defined and categories[0] is not null %}
                 {% set i=1 %}
                 {% for category in categories %}
-                    <li {% if i==1 %}class="active"{% endif %}{% if category.getName()=='文件下载' or category.getName()=='软件下载' %}id="download"{% endif %}><a href="#tab_{{ i }}" data-toggle="tab">{{ category.getName() }}</a></li>
+                    <li {% if i==1 %}class="active"{% endif %}><a href="#tab_{{ i }}" data-toggle="tab">{{ category.getName() }}</a></li>
                     {% set i=i+1 %}
                 {% endfor %}
-                {% else %}
+                    {% if identifier=='service' %}
+                        <li><a href="#d_tab1" data-toggle="tab">文件下载</a></li>
+                        <li><a href="#d_tab2" data-toggle="tab">软件下载</a></li>
+                    {% endif %}
+                    {% else %}
                 {% endif %}
             </ul>
              <div class="tab-content">
@@ -38,10 +42,31 @@
                     </li>
                          {% endfor %}
                        </ul>
-                      </div><!-- /.box-body -->
+                         <div style="margin-top:2%">
+                         <a href="{{ path('create_article',{'identifier':identifier}) }}"><button class="btn btn-default pull-right" id="add"><i class="fa fa-plus"></i>添加信息</button></a>
+                         </div>
+                     </div><!-- /.box-body -->
                   </div>
                      {% set j=j+1 %}
                  {% endfor %}
+                     {% if identifier=='service' %}
+                         <div class="tab-pane" id="d_tab1">
+                             <div class="box-body">
+                                 <div style="margin-top:2%">
+                                 <button class="btn btn-default pull-right" data-toggle="modal" data-target="#document_download" data-whatever="@mdo"><i class="fa fa-plus"></i>添加文件</button>
+                                 </div>
+                             </div>
+
+                         </div>
+                         <div class="tab-pane" id="d_tab2">
+                             <div class="box-body">
+                                 <div style="margin-top:2%">
+                                     <button class="btn btn-default pull-right" data-toggle="modal" data-target="#application_download" data-whatever="@mdo"><i class="fa fa-plus"></i>添加文件</button>
+                                 </div>
+                             </div><!-- /.box-body -->
+
+                         </div>
+                     {% endif %}
                  {% else %}
                      <div class="box-body">
                          <ul class="todo-list ui-sortable">
@@ -56,19 +81,21 @@
                                      </div>
                                  </li>
                              {% endfor %}
-
                          </ul>
                      </div>
                  {% endif %}
-            <div class="box-footer clearfix no-border">
+            {#<div class="box-footer clearfix no-border">
                 <a href="{{ path('create_article',{'identifier':identifier}) }}"><button class="btn btn-default pull-right" id="add"><i class="fa fa-plus"></i>添加信息</button></a>
-            </div>
+            </div>#}
                  
             </div>
         </div>
 
     </div>
 </div>
+    {{ render(controller('hkgbiWebBundle:backend/download/Download:file',{'category':'document'})) }}
+    {{ render(controller('hkgbiWebBundle:backend/download/Download:file',{'category':'application'})) }}
+
 {% endblock %}
 
 {% block private_js %}
