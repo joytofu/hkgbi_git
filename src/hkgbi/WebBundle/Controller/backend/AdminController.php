@@ -40,7 +40,7 @@ class AdminController extends Controller
         $slider_form = $this->UploadSliderPics($request);
         $module_form = $this->newModule($request);
         $category_form  = $this->newCategory($request);
-        $images = $em->getRepository('hkgbiWebBundle:Slider')->findAll();
+        $images = $em->getRepository('hkgbiWebBundle:Slider')->findBy(array(),array('sort'=>'DESC'));
         $modules = $em->getRepository('hkgbiWebBundle:Module')->findAll();
         $count = count($images);
 
@@ -85,11 +85,44 @@ class AdminController extends Controller
         $form = $this->createForm(new SliderType(),$slider);
 
         $form->handleRequest($request);
+        $sorts = array();
         if($form->isSubmitted()){
+            $sliders = $em->getRepository('hkgbiWebBundle:Slider')->findAll();
+            foreach($sliders as $value){
+                $sorts[] = $value->getSort();
+            }
+            $max_sort = max($sorts);
+            $slider->setSort($max_sort+1);
             $em->persist($slider);
             $em->flush();
         }
         return $form;
+    }
+
+    /**
+     * @Route("/slider/edit/{id}",name="edit_slider")
+     * @ParamConverter("slider", class="hkgbiWebBundle:Slider")
+     */
+    public function editSliderAction(Request $request, Slider $slider,$id){
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new SliderType(),$slider);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->isValid()){
+            $em->flush();
+            return $this->redirectToRoute('index');
+        }
+
+        return $this->render('@hkgbiWeb/backend/edit_slider.html.twig',array('form'=>$form->createView(),'id'=>$id));
+    }
+
+    /**
+     * @Route("/slider/delete/{id}",name="delete_slider")
+     */
+    public function deleteSlider(Slider $slider, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($slider);
+        $em->flush();
+        return $this->redirectToRoute('index');
     }
 
     protected function newModule(Request $request){
@@ -199,6 +232,42 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $menu = $em->getRepository('hkgbiWebBundle:Module')->findAll();
         return $this->render('@hkgbiWeb/backend/nav.html.twig',array('menu'=>$menu));
+    }
+
+    /**
+     * @Route("slider/sortbackward/{id}",name="sortbackward")
+     * @ParamConverter("slider", class="hkgbiWebBundle:Slider")
+     */
+    public function sortBackward(Slider $slider){
+        $em = $this->getDoctrine()->getManager();
+        $current_sort = $slider->getSort();
+        $sliders = $em->getRepository('hkgbiWebBundle:Slider')->findBy(array(),array('sort'=>'DESC'));
+        $key = array_search($slider,$sliders); //获取当前对象在sliders数组中的key
+        if($key!==count($sliders)-1){
+            $backward_sort = $sliders[$key+1]->getSort();  //获取对象后一位的sort值
+            $slider->setSort($backward_sort);  //把当前对象sort值设为后一位的sort值
+            $sliders[$key+1]->setSort($current_sort); //把后一位对象的sort值设为当前对象sort值
+            $em->flush();
+        }
+        return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("slider/sortforward/{id}",name="sortforward")
+     * @ParamConverter("slider", class="hkgbiWebBundle:Slider")
+     */
+    public function sortForward(Slider $slider){
+        $em = $this->getDoctrine()->getManager();
+        $current_sort = $slider->getSort();
+        $sliders = $em->getRepository('hkgbiWebBundle:Slider')->findBy(array(),array('sort'=>'DESC'));
+        $key = array_search($slider,$sliders); //获取当前对象在sliders数组中的key
+        if($key!==0){
+            $forward_sort = $sliders[$key-1]->getSort(); //获取当前对象前一位的sort值
+            $slider->setSort($forward_sort); //将当前对象sort值设为前一位的sort值
+            $sliders[$key-1]->setSort($current_sort); //把前一位对象的sort值设为当前对象sort值
+            $em->flush();
+        }
+        return $this->redirectToRoute('index');
     }
 
 

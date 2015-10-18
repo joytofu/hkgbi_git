@@ -9,9 +9,9 @@
 namespace hkgbi\WebBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Bridge\Doctrine\Validator\Constraints as Assert;
 
 /**
  * Slider
@@ -49,6 +49,13 @@ class Slider
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $sort;
+
+
     public function __construct(){
         $this->updatedAt = new \DateTime('now');
     }
@@ -56,6 +63,7 @@ class Slider
     public function getId(){
         return $this->id;
     }
+
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -100,5 +108,15 @@ class Slider
     {
         return $this->imageName;
     }
+
+    public function getSort(){
+        return $this->sort;
+    }
+
+    public function setSort($sort){
+        $this->sort = $sort;
+    }
+
+
 
 }

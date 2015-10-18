@@ -1,0 +1,27 @@
+
+        <div class="modal fade" id="edit_image_{{ id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+            <div class="modal-dialog" role="slider">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">编辑slider图片</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="slider" method="post" action="{{ path('edit_slider',{'id':id}) }}" enctype="multipart/form-data">
+
+                                <div class="form-group">
+                                    <label class="control-label" for="slider_imageFile_file">图片播放器(图片尺寸1906x620)</label>
+                                    <input type="file" id="slider_imageFile_file" name="slider[imageFile][file]">
+                                </div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-primary pull-right" type="submit" id="_submit" name="_submit" >保存修改</button>
+                                <button type="button" class="btn btn-default pull-right"  data-dismiss="modal">关闭</button>
+                            </div>
+                            {{ form_widget(form._token) }}
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>

@@ -52,14 +52,16 @@
                      {% if identifier=='service' %}
                          <div class="tab-pane" id="d_tab1">
                              <div class="box-body">
+                                 {{ render(controller('hkgbiWebBundle:backend/download/Download:list',{'category':'document'})) }}
                                  <div style="margin-top:2%">
-                                 <button class="btn btn-default pull-right" data-toggle="modal" data-target="#document_download" data-whatever="@mdo"><i class="fa fa-plus"></i>添加文件</button>
+                                 <button  class="btn btn-default pull-right" data-toggle="modal" data-target="#document_download" data-whatever="@mdo"><i class="fa fa-plus"></i>添加文件</button>
                                  </div>
                              </div>
 
                          </div>
                          <div class="tab-pane" id="d_tab2">
                              <div class="box-body">
+                                 {{ render(controller('hkgbiWebBundle:backend/download/Download:list',{'category':'application'})) }}
                                  <div style="margin-top:2%">
                                      <button class="btn btn-default pull-right" data-toggle="modal" data-target="#application_download" data-whatever="@mdo"><i class="fa fa-plus"></i>添加文件</button>
                                  </div>
@@ -93,8 +95,8 @@
 
     </div>
 </div>
-    {{ render(controller('hkgbiWebBundle:backend/download/Download:file',{'category':'document'})) }}
-    {{ render(controller('hkgbiWebBundle:backend/download/Download:file',{'category':'application'})) }}
+    {{ render(controller('hkgbiWebBundle:backend/download/Download:createdownload',{'category':'document'})) }}
+    {{ render(controller('hkgbiWebBundle:backend/download/Download:createdownload',{'category':'application'})) }}
 
 {% endblock %}
 
@@ -102,6 +104,12 @@
     <script>function deletearticle(id){
             if(confirm('你确定删除该信息吗?')){
                 window.location.href="{{ app.request.baseurl }}/admin/article/{{ identifier }}/delete/"+id;
+            }
+        }
+    </script>
+    <script>function deletedownload(id){
+            if(confirm('你确定删除该文件吗?')){
+                window.location.href="{{ app.request.baseurl }}/admin/download/delete/"+id;
             }
         }
     </script>

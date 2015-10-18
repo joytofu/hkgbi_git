@@ -20,9 +20,20 @@
                     <div class="carousel-inner">
                         {% set i = 1 %}
 
-                        {% for image in images %}
+                        {% for key,image in images %}
                             <div class="item {% if i==1 %}active{% endif %}">
-                                <img src="{{ vich_uploader_asset(image,'imageFile') }}">
+                                <img style="height:250px!important" src="{{ vich_uploader_asset(image,'imageFile') }}">
+                                <div style="margin-left:35%">
+                                    {% if key==0 %}{% else %}
+                                    <a href="{{ path('sortforward',{'id':image.id}) }}"><i class="fa fa-angle-double-left"></i>前移</a>
+                                    {% endif %}
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#edit_image_{{ image.id }}"><i class="fa fa-wrench"></i>更换图片</a>
+                                    <a href="javascript:void(0)" onclick="deleteslider({{ image.id }})" style="color:darkred"><i class="fa fa-remove"></i>删除图片</a>
+                                    {% if key==images|length-1 %}{% else %}
+                                    <a href="{{ path('sortbackward',{'id':image.id}) }}"><i class="fa fa-angle-double-right"></i>后移</a>
+                                    {% endif %}
+                                </div>
+
                             </div>
                             {% set i=i+1 %}
                         {% endfor %}
@@ -47,7 +58,7 @@
              <form name="slider" method="post" action="{{ path('index') }}" enctype="multipart/form-data">
                 <div class="box-body">
                     <div class="form-group">
-                        <label class="control-label" for="slider_imageFile_file">图片播放器</label>
+                        <label class="control-label" for="slider_imageFile_file">图片播放器(图片尺寸1906x620)</label>
                         <input type="file" id="slider_imageFile_file" name="slider[imageFile][file]">
                     </div>
                 </div>
@@ -112,7 +123,7 @@
                                             </form>
                                         </div>
                                     </div>
-                                    </div>
+                                </div>
                             </td>
 
                             <td>{% if module.inMenus==false %}
@@ -281,14 +292,17 @@
         </div>
     </div>
 
+    {#编辑图片modal框#}
+    {% for image in images %}
+    {{ render(controller('hkgbiWebBundle:backend/Admin:editSlider',{'id':image.id})) }}
+    {% endfor %}
+
 
 {% endblock %}
 
 
 {% block private_js %}
-
-
-<script>
+    <script>
     function deleteModule(id){
         if(confirm('是否删除该模块？删除后不可恢复！')){
             window.location.href="{{ app.request.baseurl }}/admin/delete_module/"+id;
@@ -299,6 +313,13 @@
         function delete_category(id){
             if(confirm('你确定删除该分类吗?')){
                 window.location.href="{{ app.request.baseurl }}/admin/delete_category/"+id;
+            }
+        }
+    </script>
+    <script>
+        function deleteslider(id){
+            if(confirm('删除该图片吗?')){
+                window.location.href="{{ app.request.baseurl }}/admin/slider/delete/"+id;
             }
         }
     </script>
