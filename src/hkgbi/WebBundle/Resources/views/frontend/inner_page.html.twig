@@ -1,0 +1,69 @@
+{% extends 'hkgbiWebBundle:frontend:base.html.twig' %}
+{% block private_css %}
+    <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/style(origin).css') }}">
+{% endblock %}
+
+{% block main_content %}
+    {{ render(controller('hkgbiWebBundle:frontend/Default:banner')) }}
+    <div class="main">
+        <div class="left">
+            <div class="lefttop">{{ module.name }}</div>
+            <div class="leftmain">
+                <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                {% set i=1 %}
+                {% for category in category_list %}
+                    <li {% if i==1 %}class="active"{% endif %}><a href="#tab{{ i }}" data-toggle="tab">{{ category.name }}</a></li>
+                    {% set i=i+1 %}
+                {% endfor %}
+                </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="right">
+            {% set j=1 %}
+            <div class="tab-content">
+                {% for category in category_list %}
+                   <div class="tab-pane{% if j==1 %} active{% endif %}" id="tab{{ j }}">
+                       <div class="righttop"><div class="ll">{{ category.name }}</div><div class="rr">您当前的位置是：<a href="{{ path('frontend_index') }}">网站首页</a> > {{ module.name }} > {{ category.name }}</div></div>
+                       <div class="rightmain">
+                          {% if category.articles|length==1 %}
+                              {{ (category.articles[0].content)|raw }}
+                          {% else %}
+                          {% for article in category.getArticles() %}
+                              <div style="width:100%; border-bottom:1px dashed #ccc; padding-bottom:10px; overflow:hidden; margin-bottom:10px;">
+                                  <p><a style="font-size:16px;" value="{{ article.id }}" href="javascript:;" onclick="" title="{{ article.title }}" target="_blank">{{ article.title }}</a></p>
+                              </div>
+                              {:$rs[content]}
+                          {% endfor %}
+                          {% endif %}
+                       </div>
+                   </div>
+                   {% set j=j+1 %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block private_js %}
+    <script src="{{ asset('bundles/hkgbiweb/js/admin/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/hkgbiweb/js/admin/app.min.js') }}"></script>
+    <script>
+        $(function(){
+            var $id = $('.rightmain div p a').attr('value');
+            $('.rightmain div p a').bind("click",function(){
+                $.ajax({
+                    url:"{{ app.request.baseurl }}/module/article/"+$id,
+                    success: function(data){
+                        $('.rightmain').html(data);
+                    }
+                })
+
+            })
+        });
+    </script>
+
+{% endblock %}

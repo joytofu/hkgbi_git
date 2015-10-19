@@ -20,7 +20,7 @@
                     <div class="carousel-inner">
                         {% set i = 1 %}
 
-                        {% for key,image in images %}
+                        {% for key,image in sliders %}
                             <div class="item {% if i==1 %}active{% endif %}">
                                 <img style="height:250px!important" src="{{ vich_uploader_asset(image,'imageFile') }}">
                                 <div style="margin-left:35%">
@@ -29,7 +29,7 @@
                                     {% endif %}
                                     <a href="javascript:void(0)" data-toggle="modal" data-target="#edit_image_{{ image.id }}"><i class="fa fa-wrench"></i>更换图片</a>
                                     <a href="javascript:void(0)" onclick="deleteslider({{ image.id }})" style="color:darkred"><i class="fa fa-remove"></i>删除图片</a>
-                                    {% if key==images|length-1 %}{% else %}
+                                    {% if key==sliders|length-1 %}{% else %}
                                     <a href="{{ path('sortbackward',{'id':image.id}) }}"><i class="fa fa-angle-double-right"></i>后移</a>
                                     {% endif %}
                                 </div>
@@ -68,6 +68,31 @@
                 {{ form_widget(slider_form._token) }}
               </form>
             </div>
+      </div>
+      <div class="col-md-3">
+          <div class="box box-solid">
+              <div class="box-header with-border">
+                  <h3 class="box-title">内页Banner图</h3>
+              </div>
+              <div class="box-body">
+
+                  {% if banners[0] is defined %}
+                      <div>
+                          <img style="width:250px"  src="{{ vich_uploader_asset(banners[0],'imageFile') }}">
+                      </div>
+                  {% endif %}
+
+
+                  <form name="banner" method="post" action="{{ path('index') }}" enctype="multipart/form-data">
+                      <div class="form-group">
+                          <input type="file" id="banner_imageFile_file" name="banner[imageFile][file]">
+                          <button type="submit" class="btn btn-primary pull-right" style="margin-top:20px">上传</button>
+                      </div>
+                      {{ form_widget(banner_form._token) }}
+                  </form>
+              </div>
+
+          </div>
       </div>
     </div>
 
@@ -293,8 +318,8 @@
     </div>
 
     {#编辑图片modal框#}
-    {% for image in images %}
-    {{ render(controller('hkgbiWebBundle:backend/Admin:editSlider',{'id':image.id})) }}
+    {% for slider in sliders %}
+    {{ render(controller('hkgbiWebBundle:backend/Admin:editSlider',{'id':slider.id})) }}
     {% endfor %}
 
 

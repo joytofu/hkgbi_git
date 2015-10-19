@@ -8,9 +8,11 @@
 
 namespace hkgbi\WebBundle\Controller\backend;
 
+use hkgbi\WebBundle\Entity\Banner;
 use hkgbi\WebBundle\Entity\Category;
 use hkgbi\WebBundle\Entity\Slider;
 use hkgbi\WebBundle\Entity\Module;
+use hkgbi\WebBundle\Form\BannerType;
 use hkgbi\WebBundle\Form\CategoryType;
 use hkgbi\WebBundle\Form\ModuleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -38,18 +40,22 @@ class AdminController extends Controller
     public function indexAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $slider_form = $this->UploadSliderPics($request);
+        $banner_form = $this->UploadBannerPics($request);
         $module_form = $this->newModule($request);
         $category_form  = $this->newCategory($request);
-        $images = $em->getRepository('hkgbiWebBundle:Slider')->findBy(array(),array('sort'=>'DESC'));
+        $sliders = $em->getRepository('hkgbiWebBundle:Slider')->findBy(array(),array('sort'=>'DESC'));
+        $banners = $em->getRepository('hkgbiWebBundle:Banner')->findAll();
         $modules = $em->getRepository('hkgbiWebBundle:Module')->findAll();
-        $count = count($images);
+        $count = count($sliders);
 
 
         return $this->render('@hkgbiWeb/backend/index_admin.html.twig',array(
             'slider_form'=>$slider_form->createView(),
+            'banner_form'=>$banner_form->createView(),
             'module_form'=>$module_form->createView(),
             'category_form'=>$category_form->createView(),
-            'images'=>$images,
+            'sliders'=>$sliders,
+            'banners'=>$banners,
             'modules'=>$modules,
             'count'=>$count));
     }
@@ -94,6 +100,18 @@ class AdminController extends Controller
             $max_sort = max($sorts);
             $slider->setSort($max_sort+1);
             $em->persist($slider);
+            $em->flush();
+        }
+        return $form;
+    }
+
+    protected function UploadBannerPics(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $banner = new Banner();
+        $form = $this->createForm(new BannerType(), $banner);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $em->persist($banner);
             $em->flush();
         }
         return $form;
@@ -268,6 +286,11 @@ class AdminController extends Controller
             $em->flush();
         }
         return $this->redirectToRoute('index');
+    }
+
+    public function bannerAction(){
+        $em = $this->getDoctrine()->getManager();
+
     }
 
 
