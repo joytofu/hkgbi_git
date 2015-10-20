@@ -3,6 +3,7 @@
 namespace hkgbi\WebBundle\Controller\frontend;
 
 use hkgbi\WebBundle\Entity\Article;
+use Proxies\__CG__\hkgbi\WebBundle\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -60,6 +61,24 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $category_list = $em->getRepository('hkgbiWebBundle:Category')->findBy(array('module'=>$module));
         return $this->render('@hkgbiWeb/frontend/inner_page.html.twig',array('category_list'=>$category_list,'module'=>$module));
+    }
+
+    /**
+     * @Route("category/{id}",name="category")
+     * @ParamConverter("category", class="hkgbiWebBundle:Category")
+     */
+    public function categoryAction(\hkgbi\WebBundle\Entity\Category $category){
+        $articles = $category->getArticles();
+        $list = array();
+        foreach($articles as $article){
+            $title = $article->getTitle();
+            $value = $article->getId();
+            $list[] = "<div style='width:100%; border-bottom:1px dashed #ccc; padding-bottom:10px; overflow:hidden; margin-bottom:10px;'>
+        <p><a style='font-size:16px;' href='javascript:;' value='{$value}' title='{$title}'>$title</a></p>
+</div>";
+        }
+        $article_list = implode("",$list);
+        return new Response("$article_list");
     }
 
 

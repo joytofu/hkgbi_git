@@ -9,41 +9,22 @@
         <div class="left">
             <div class="lefttop">{{ module.name }}</div>
             <div class="leftmain">
-                <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
+                <ul>
                 {% set i=1 %}
                 {% for category in category_list %}
-                    <li {% if i==1 %}class="active"{% endif %}><a href="#tab{{ i }}" data-toggle="tab">{{ category.name }}</a></li>
+                    <li {% if i==1 %}class="active"{% endif %}><a href="javascript:;" value="{{ category.id }}">{{ category.name }}</a></li>
                     {% set i=i+1 %}
                 {% endfor %}
                 </ul>
-                </div>
+
 
             </div>
         </div>
 
         <div class="right">
-            {% set j=1 %}
-            <div class="tab-content">
-                {% for category in category_list %}
-                   <div class="tab-pane{% if j==1 %} active{% endif %}" id="tab{{ j }}">
-                       <div class="righttop"><div class="ll">{{ category.name }}</div><div class="rr">您当前的位置是：<a href="{{ path('frontend_index') }}">网站首页</a> > {{ module.name }} > {{ category.name }}</div></div>
+                       <div class="righttop"><div class="ll"></div><div class="rr">您当前的位置是：<a href="{{ path('frontend_index') }}">网站首页</a> >  > </div></div>
                        <div class="rightmain">
-                          {% if category.articles|length==1 %}
-                              {{ (category.articles[0].content)|raw }}
-                          {% else %}
-                          {% for article in category.getArticles() %}
-                              <div style="width:100%; border-bottom:1px dashed #ccc; padding-bottom:10px; overflow:hidden; margin-bottom:10px;">
-                                  <p><a style="font-size:16px;" value="{{ article.id }}" href="javascript:;" onclick="" title="{{ article.title }}" target="_blank">{{ article.title }}</a></p>
-                              </div>
-                              {:$rs[content]}
-                          {% endfor %}
-                          {% endif %}
                        </div>
-                   </div>
-                   {% set j=j+1 %}
-                {% endfor %}
-            </div>
         </div>
     </div>
 {% endblock %}
@@ -53,16 +34,37 @@
     <script src="{{ asset('bundles/hkgbiweb/js/admin/app.min.js') }}"></script>
     <script>
         $(function(){
-            var $id = $('.rightmain div p a').attr('value');
-            $('.rightmain div p a').bind("click",function(){
+            $('.leftmain ul li a').click(function(){
+                var $id = $(this).attr('value');
                 $.ajax({
-                    url:"{{ app.request.baseurl }}/module/article/"+$id,
+                    url:"{{ app.request.baseUrl }}/category/"+$id,
                     success: function(data){
                         $('.rightmain').html(data);
+                        var $module_name = $('.lefttop').text();
+                        var $cate_name = $(this).text();
+                        var $r_nav = "您当前的位置是：<a href={{ path('frontend_index') }}>网站首页</a> > "+$module_name+" > "+$cate_name;
+                        $('.rr').html($r_nav);
                     }
                 })
-
             })
+
+        })
+    </script>
+    <script>
+        $(function(){
+                $(document).on("click",".rightmain div p a",function(){
+                    var $id = $(this).attr('value');
+                    $.ajax({
+                        url:"{{ app.request.baseurl }}/module/article/"+$id,
+                        success: function(data){
+                            var $content = "<div class='righttop'>" +
+                                    "<div class='ll'>" + "</div>" +
+                                    "<div class='rr'>您当前的位置是：网站首页 > "+ "{{ module.name }}" +" > {:$rs[title]}" +
+                                    "</div></div>"+"<div class='rightmain'>"+data+"</div>"
+                            $('.right').html($content);
+                        }
+                    })
+                })
         });
     </script>
 
