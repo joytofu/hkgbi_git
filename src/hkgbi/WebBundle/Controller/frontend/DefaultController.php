@@ -3,7 +3,10 @@
 namespace hkgbi\WebBundle\Controller\frontend;
 
 use hkgbi\WebBundle\Entity\Article;
+use hkgbi\WebBundle\Entity\Reservation;
+use hkgbi\WebBundle\Form\ReservationType;
 use Proxies\__CG__\hkgbi\WebBundle\Entity\Category;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -73,7 +76,7 @@ class DefaultController extends Controller
         foreach($articles as $article){
             $title = $article->getTitle();
             $value = $article->getId();
-            $list[] = "<div style='width:100%; border-bottom:1px dashed #ccc; padding-bottom:10px; overflow:hidden; margin-bottom:10px;'>
+                $list[] = "<div style='width:100%; border-bottom:1px dashed #ccc; padding-bottom:10px; overflow:hidden; margin-bottom:10px;'>
         <p><a style='font-size:16px;' href='javascript:;' value='{$value}' title='{$title}'>$title</a></p>
 </div>";
         }
@@ -108,5 +111,27 @@ class DefaultController extends Controller
     public function getArticle(Article $article){
         $content = $article->getContent();
         return new Response("$content");
+    }
+
+    public function JoinUsCoverAction(){
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository('hkgbiWebBundle:Category')->find(19);
+        $cover = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('category'=>$category));
+        $content = $cover[0]->getContent();
+        return $this->render('@hkgbiWeb/frontend/join_us_cover.html.twig',array('content'=>$content));
+    }
+
+    /**
+     * @Route("reservation",name="reservation")
+     */
+    public function reserveAction(){
+        $em = $this->getDoctrine()->getManager();
+        $reservation = new Reservation();
+        $form = $this->createForm(new ReservationType(),$reservation);
+        if($form->isSubmitted()&&$form->isValid()){
+            $em->persist($reservation);
+            $em->flush();
+        }
+        return $this->render('@hkgbiWeb/frontend/reservation.html.twig',array('form'=>$form->createView()));
     }
 }

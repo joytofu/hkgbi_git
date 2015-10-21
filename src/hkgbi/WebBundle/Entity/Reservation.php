@@ -131,4 +131,12 @@ class Reservation
     public function setFax($fax){
         $this->fax = $fax;
     }
+
+    public function getRemark(){
+        return $this->remark;
+    }
+
+    public function setRemark($remark){
+        $this->remark = $remark;
+    }
 }

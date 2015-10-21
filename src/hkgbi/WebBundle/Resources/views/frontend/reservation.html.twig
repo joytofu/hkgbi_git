@@ -1,0 +1,11 @@
+<form action="{{ path('reservation') }}" name="reservation" method="post">
+{{ form_row(form.fund_name) }}
+{{ form_row(form.department) }}
+{{ form_row(form.name) }}
+{{ form_row(form.cellphone) }}
+{{ form_row(form.email) }}
+{{ form_row(form.company) }}
+{{ form_row(form.fax) }}
+{{ form_row(form.remark) }}
+<button type="submit" class="btn btn-primary">预约</button>
+{{ form_end(form) }}

@@ -12,20 +12,48 @@
                 <ul>
                 {% set i=1 %}
                 {% for category in category_list %}
-                    <li {% if i==1 %}class="active"{% endif %}><a href="javascript:;" value="{{ category.id }}">{{ category.name }}</a></li>
+                    {% if category.name=='cover' %}{% else %}
+                    <li><a href="javascript:;" value="{{ category.id }}">{{ category.name }}</a></li>
+                    {% endif %}
                     {% set i=i+1 %}
                 {% endfor %}
                 </ul>
-
-
             </div>
         </div>
 
         <div class="right">
-                       <div class="righttop"><div class="ll"></div><div class="rr">您当前的位置是：<a href="{{ path('frontend_index') }}">网站首页</a> >  > </div></div>
+                       <div class="righttop"><div class="ll">{% if module.name=='客户服务' %}在线预约{% else %}{{ module.name }}{% endif %}</div><div class="rr">您当前的位置是：<a href="{{ path('frontend_index') }}">网站首页</a> > {{ module.name }}</div></div>
                        <div class="rightmain">
+                           {% if module.name=='加入我们' %}
+                                {{ render(controller('hkgbiWebBundle:frontend/Default:JoinUsCover')) }}
+                           {% elseif module.name=='客户服务' %}
+                               {{ render(controller('hkgbiWebBundle:frontend/Default:reserve')) }}
+                           {% endif %}
                        </div>
         </div>
+
+        {#预约modal框#}
+        <div class="modal fade" id="new_module" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">在线预约</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="resevation" method="post" action="{{ path('reservation') }}">
+
+
+                        </form></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">确定添加</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 {% endblock %}
 
@@ -35,17 +63,23 @@
     <script>
         $(function(){
             $('.leftmain ul li a').click(function(){
-                var $id = $(this).attr('value');
-                $.ajax({
-                    url:"{{ app.request.baseUrl }}/category/"+$id,
-                    success: function(data){
-                        $('.rightmain').html(data);
-                        var $module_name = $('.lefttop').text();
-                        var $cate_name = $(this).text();
-                        var $r_nav = "您当前的位置是：<a href={{ path('frontend_index') }}>网站首页</a> > "+$module_name+" > "+$cate_name;
-                        $('.rr').html($r_nav);
-                    }
-                })
+                if($(this).text()=='在线预约'){
+                   var $content = {{ render(controller('hkgbiWebBundle:frontend/Default:reserve')) }};
+                   $('.rightmain').html($content);
+                }else{
+                    var $id = $(this).attr('value');
+                    var $cate_name = $(this).text();
+                    $.ajax({
+                        url: "{{ app.request.baseUrl }}/category/" + $id,
+                        success: function (data) {
+                            $('.rightmain').html(data);
+                            var $module_name = $('.lefttop').text();
+                            var $r_nav = "您当前的位置是：<a href={{ path('frontend_index') }}>网站首页</a> > " + $module_name + " > " + $cate_name;
+                            $('.rr').html($r_nav);
+                            $('.ll').html($cate_name);
+                        }
+                    });
+                }
             })
 
         })
@@ -54,14 +88,14 @@
         $(function(){
                 $(document).on("click",".rightmain div p a",function(){
                     var $id = $(this).attr('value');
+                    var $article_title = $(this).attr('title');
+                    var $cate_name = $('.ll').text();
                     $.ajax({
                         url:"{{ app.request.baseurl }}/module/article/"+$id,
                         success: function(data){
-                            var $content = "<div class='righttop'>" +
-                                    "<div class='ll'>" + "</div>" +
-                                    "<div class='rr'>您当前的位置是：网站首页 > "+ "{{ module.name }}" +" > {:$rs[title]}" +
-                                    "</div></div>"+"<div class='rightmain'>"+data+"</div>"
-                            $('.right').html($content);
+                            var $content = "您当前的位置是：网站首页 > " + "{{ module.name }}" +" > "+$cate_name+" > " +$article_title;
+                            $('.rr').html($content);
+                            $('.rightmain').html(data);
                         }
                     })
                 })

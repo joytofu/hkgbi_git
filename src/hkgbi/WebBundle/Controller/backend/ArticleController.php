@@ -62,6 +62,10 @@ class ArticleController extends Controller
         $form = $this->createForm(new ArticleType($module_obj[0]),$article);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
+            //写入选择的分类对象
+            $category = $em->getRepository('hkgbiWebBundle:Category')->find($_POST['article']['categories']);
+            $article->setCategory($category);
+
             $em->flush();
             $article_list_url = $this->generateUrl('article_list',array('identifier'=>$identifier));
             return new Response("<script>alert('修改成功!');window.location.href='$article_list_url'</script>");

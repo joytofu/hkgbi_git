@@ -18,11 +18,7 @@
                         {% else %}
                         {% endif %}
                         <script>
-                            $('option').each(function(){
-                                if($(this).val()=="{{ cate_id }}"){
-                                    $(this).attr('selected','selected')
-                                }
-                            });
+                            $('select').find("option[value={{ cate_id }}]").attr("selected",true);
                         </script>
                         <script id="container" name="article[content]" type="text/plain">{{ article.getContent()|raw }}</script>
                         <button class="btn btn-instagram" type="submit">提交</button>
@@ -53,5 +49,11 @@
                 ]
             ]
         });
+    </script>
+    <script>
+        $('select').bind('change',function(){
+            $("option[value={{ cate_id }}]").attr('selected',false);
+            $(this).find("option:selected").attr('selected',true);
+        })
     </script>
 {% endblock %}

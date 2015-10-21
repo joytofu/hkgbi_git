@@ -116,7 +116,7 @@
 
                         {% for module in modules %}
                         <tr>
-                            <td>{{ module.id }}</td>
+                            <td id="module_id">{{ module.id }}</td>
                             <td>
                                 <a href="javascript:void(0)" data-toggle="modal" data-target="#edit_module_{{ module.id }}" data-whatever="@mdo" >{{ module.name }}</a>
 
@@ -152,9 +152,9 @@
                             </td>
 
                             <td>{% if module.inMenus==false %}
-                                <button id="{{ module.id }}" class="btn btn-success">设为菜单</button>
+                                <button id="enable_menu" class="btn btn-success" module_id="{{ module.id }}">设为菜单</button>
                                     {#设为菜单ajax#}
-                                    <script>
+                                    {#<script>
                                         $(document).ready(function(){
                                             $("#{{ module.id }}").click(function(){
                                                 $.ajax({
@@ -168,11 +168,11 @@
                                                 });
                                             });
                                         });
-                                    </script>
+                                    </script>#}
                                 {% else %}
-                                <button id="{{ module.id }}" value="disable_in_menus" class="btn btn-warning">取消菜单</button>
+                                <button id="disable_menu" module_id="{{ module.id }}"  class="btn btn-warning">取消菜单</button>
                                     {#取消菜单ajax#}
-                                    <script>
+                                    {#<script>
                                         $(document).ready(function(){
                                             $("#{{ module.id }}").click(function(){
                                                 $.ajax({
@@ -185,7 +185,7 @@
                                                 });
                                             });
                                         });
-                                    </script>
+                                    </script>#}
                                 {% endif %}
                                 <a href="javascript:void(0)" onclick="deleteModule({{ module.id }})"><button id="{{ module.id }}" class="btn btn-danger">删除菜单</button></a>
                             </td>
@@ -242,9 +242,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
                         {% endfor %}
                     </ul>
                     {% endfor %}
@@ -347,5 +344,37 @@
                 window.location.href="{{ app.request.baseurl }}/admin/slider/delete/"+id;
             }
         }
+    </script>
+
+    {#设为菜单ajax#}
+    <script>
+        $(document).on('click','#enable_menu',function(){
+                var $module_id = $(this).attr('module_id');
+                var mythis = $(this);
+                $.ajax({
+                    type:"POST",
+                    url:"{{ app.request.baseurl }}/admin/in_menus/"+$module_id,
+                    success:function(){
+                        var $verified = "<button id='disable_menu' class='btn btn-warning' module_id=" + $module_id + ">取消菜单</button>";
+                        mythis.replaceWith($verified);
+                    }
+                });
+        });
+    </script>
+
+    {#取消菜单ajax#}
+    <script>
+        $(document).on('click','#disable_menu',function(){
+                var $module_id = $(this).attr('module_id');
+                var mythis = $(this);
+                $.ajax({
+                    type:"POST",
+                    url:"{{ app.request.baseurl }}/admin/disable_in_menus/"+$module_id,
+                    success:function(){
+                        var $verified = "<button id='enable_menu' class='btn btn-success' module_id=" + $module_id + ">设为菜单</button>";
+                        mythis.replaceWith($verified);
+                    }
+                });
+        });
     </script>
 {% endblock %}
