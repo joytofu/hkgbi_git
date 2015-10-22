@@ -1,4 +1,9 @@
 {% extends "@hkgbiWeb/backend/layout_admin.html.twig" %}
+{% block private_css %}
+{% if identifier=='service' %}
+<link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/js/dataTables/dataTables.bootstrap.css') }}">
+{% endif %}
+{% endblock %}
 
 {% block page_header %}{{ module }}{% endblock %}
 {% block content %}
@@ -11,23 +16,24 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 {% if categories[0] is defined and categories[0] is not null %}
-                {% set i=1 %}
-                {% for category in categories %}
-                    <li {% if i==1 %}class="active"{% endif %}><a href="#tab_{{ i }}" data-toggle="tab">{{ category.getName() }}</a></li>
-                    {% set i=i+1 %}
-                {% endfor %}
+                    {% set i=1 %}
                     {% if identifier=='service' %}
+                        <li class="active"><a href="#d_tab0" data-toggle="tab">在线预约</a></li>
                         <li><a href="#d_tab1" data-toggle="tab">文件下载</a></li>
                         <li><a href="#d_tab2" data-toggle="tab">软件下载</a></li>
                     {% endif %}
-                    {% else %}
+                    {% for category in categories %}
+                        <li><a href="#tab_{{ i }}" data-toggle="tab">{{ category.getName() }}</a></li>
+                    {% set i=i+1 %}
+                    {% endfor %}
+                {% else %}
                 {% endif %}
             </ul>
              <div class="tab-content">
                  {% if categories[0] is defined and categories[0] is not null  %}
                  {% set j=1 %}
                  {% for  articles in articles_array%}
-                  <div class="tab-pane {% if j==1 %}active{% endif %}" id="tab_{{ j }}">
+                  <div class="tab-pane" id="tab_{{ j }}">
                      <div class="box-body">
                        <ul class="todo-list ui-sortable">
                          {% for article in articles %}
@@ -50,6 +56,12 @@
                      {% set j=j+1 %}
                  {% endfor %}
                      {% if identifier=='service' %}
+                         <div class="tab-pane active" id="d_tab0">
+                             <div class="box-body">
+                                 {{ render(controller('hkgbiWebBundle:backend/Reservation:getAllReservations')) }}
+                             </div>
+
+                         </div>
                          <div class="tab-pane" id="d_tab1">
                              <div class="box-body">
                                  {{ render(controller('hkgbiWebBundle:backend/download/Download:list',{'category':'document'})) }}
@@ -101,16 +113,71 @@
 {% endblock %}
 
 {% block private_js %}
-    <script>function deletearticle(id){
+    {% if identifier=='service' %}
+    <script src="{{ asset('bundles/hkgbiweb/js/dataTables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/hkgbiweb/js/dataTables/dataTables.bootstrap.min.js') }}"></script>
+    <script>
+            $(function () {
+                $('#reservation').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": false,
+                    "ordering": false,
+                    "info": true,
+                    "autoWidth": true
+                });
+            });
+        </script>
+    {% endif %}
+    <script>
+        function deletearticle(id){
             if(confirm('你确定删除该信息吗?')){
                 window.location.href="{{ app.request.baseurl }}/admin/article/{{ identifier }}/delete/"+id;
             }
         }
-    </script>
-    <script>function deletedownload(id){
+
+        function deletedownload(id){
             if(confirm('你确定删除该文件吗?')){
                 window.location.href="{{ app.request.baseurl }}/admin/download/delete/"+id;
             }
         }
+
+        function deletereservation(id){
+            if(confirm('你确定删除该预约吗?')){
+                window.location.href="{{ app.request.baseurl }}/reservation/delete/"+id;
+            }
+        }
     </script>
+    <script>
+        /*验证预约*/
+        $(function(){
+            $(document).on('click','#set_granted',function(){
+                var $id = $(this).attr('value');
+                var mythis = $(this);
+                $.ajax({
+                    url:"{{ app.request.baseUrl }}/reservation/setgranted/"+$id,
+                    success:function(){
+                        var $content = "<i id='undo_granted' class='fa fa-check' style='color:green' value="+ $id + "></i>";
+                        mythis.replaceWith($content);
+                    }
+                })
+            })
+        })
+
+        /*取消验证*/
+        $(function(){
+            $(document).on('click','#undo_granted',function(){
+                var $id = $(this).attr('value');
+                var mythis = $(this);
+                $.ajax({
+                    url:"{{ app.request.baseUrl }}/reservation/undogranted/"+$id,
+                    success:function(){
+                        var $content = "<i id='set_granted' class='fa fa-minus-circle' style='color:darkred' value="+ $id + "></i>";
+                        mythis.replaceWith($content);
+                    }
+                })
+            })
+        })
+    </script>
+
 {% endblock %}

@@ -1,0 +1,41 @@
+<table id="reservation" class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>审核状态</th>
+        <th>姓名</th>
+        <th>购买的基金</th>
+        <th>服务分部</th>
+        <th>手机号码</th>
+        <th>电子邮箱</th>
+        <th>公司</th>
+        <th>传真号码</th>
+        <th>备注</th>
+        <th>注册时间</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for reservation in reservations %}
+        <tr>
+            <td>
+                <a href="javascript:;">
+                {% if reservation.enabled==false %}
+                    <i id="set_granted" class="fa fa-minus-circle" style="color:darkred" value="{{ reservation.id }}"></i>
+                {% else %}
+                    <i id="undo_granted" class="fa fa-check" style="color:darkgreen" value="{{ reservation.id }}"></i>
+                {% endif %}
+                </a>
+            </td>
+            <td>{{ reservation.name }}</td>
+            <td>{{ reservation.fundName }}</td>
+            <td>{{ reservation.department }}</td>
+            <td>{{ reservation.cellphone }}</td>
+            <td>{{ reservation.email }}</td>
+            <td>{{ reservation.company }}</td>
+            <td>{{ reservation.fax }}</td>
+            <td>{{ reservation.remark }}</td>
+            <td>{{ reservation.createdAt|date('Y-m-d') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

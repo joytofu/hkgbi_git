@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\Query;
@@ -60,10 +61,18 @@ class DefaultController extends Controller
      * @Route("module/{identifier}",name="module")
      * @ParamConverter("module", class="hkgbiWebBundle:Module")
      */
-    public function moduleAction(Module $module){
+    public function moduleAction(Module $module,Request $request){
         $em = $this->getDoctrine()->getManager();
         $category_list = $em->getRepository('hkgbiWebBundle:Category')->findBy(array('module'=>$module));
-        return $this->render('@hkgbiWeb/frontend/inner_page.html.twig',array('category_list'=>$category_list,'module'=>$module));
+        $reservation = new Reservation();
+        $form = $this->createForm(new ReservationType(),$reservation);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->isValid()){
+            $em->persist($reservation);
+            $em->flush();
+            return new Response("<script>alert('您的预约已成功，请等待工作人员与您联系!');window.location.href='/';</script>");
+        }
+        return $this->render('@hkgbiWeb/frontend/inner_page.html.twig',array('category_list'=>$category_list,'module'=>$module,'form'=>$form->createView()));
     }
 
     /**
@@ -123,15 +132,19 @@ class DefaultController extends Controller
 
     /**
      * @Route("reservation",name="reservation")
+     * @Method({"POST"})
      */
-    public function reserveAction(){
+    public function reserveAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $reservation = new Reservation();
         $form = $this->createForm(new ReservationType(),$reservation);
+        $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
             $em->persist($reservation);
             $em->flush();
+            return new Response("<script>alert('您的预约已成功，请等待工作人员与您联系!');window.location.href='/';</script>");
         }
-        return $this->render('@hkgbiWeb/frontend/reservation.html.twig',array('form'=>$form->createView()));
+        return $form->createView();
+/*        return $this->render('@hkgbiWeb/frontend/reservation.html.twig',array('form'=>$form->createView()));*/
     }
 }

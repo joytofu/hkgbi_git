@@ -47,6 +47,10 @@ class AdminController extends Controller
         $banners = $em->getRepository('hkgbiWebBundle:Banner')->findAll();
         $modules = $em->getRepository('hkgbiWebBundle:Module')->findAll();
         $count = count($sliders);
+        $reservations = $em->getRepository('hkgbiWebBundle:Reservation')->findAll();
+        $new_reservation = $em->getRepository('hkgbiWebBundle:Reservation')->findBy(array('enabled'=>false));
+        $num_of_reservation = count($reservations);
+        $num_of_new_reservation = count($new_reservation);
 
 
         return $this->render('@hkgbiWeb/backend/index_admin.html.twig',array(
@@ -57,7 +61,9 @@ class AdminController extends Controller
             'sliders'=>$sliders,
             'banners'=>$banners,
             'modules'=>$modules,
-            'count'=>$count));
+            'count'=>$count,
+            'num_of_reservation'=>$num_of_reservation,
+            'num_of_new_reservation'=>$num_of_new_reservation));
     }
 
     /**
@@ -288,10 +294,7 @@ class AdminController extends Controller
         return $this->redirectToRoute('index');
     }
 
-    public function bannerAction(){
-        $em = $this->getDoctrine()->getManager();
 
-    }
 
 
 }

@@ -27,7 +27,7 @@
                            {% if module.name=='加入我们' %}
                                 {{ render(controller('hkgbiWebBundle:frontend/Default:JoinUsCover')) }}
                            {% elseif module.name=='客户服务' %}
-                               {{ render(controller('hkgbiWebBundle:frontend/Default:reserve')) }}
+                               {% include '@hkgbiWeb/frontend/reservation.html.twig' %}
                            {% endif %}
                        </div>
         </div>
@@ -63,10 +63,7 @@
     <script>
         $(function(){
             $('.leftmain ul li a').click(function(){
-                if($(this).text()=='在线预约'){
-                   var $content = {{ render(controller('hkgbiWebBundle:frontend/Default:reserve')) }};
-                   $('.rightmain').html($content);
-                }else{
+                if($(this).text()!=='在线预约'){
                     var $id = $(this).attr('value');
                     var $cate_name = $(this).text();
                     $.ajax({

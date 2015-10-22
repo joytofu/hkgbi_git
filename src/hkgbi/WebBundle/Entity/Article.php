@@ -97,6 +97,15 @@ class Article
     public function setModule(Module $module=null){
         $this->module = $module;
     }
+
+    public function getCreatedAt(){
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTime $date = null){
+        $this->createdAt = $date;
+        return $this;
+    }
     
 
 }

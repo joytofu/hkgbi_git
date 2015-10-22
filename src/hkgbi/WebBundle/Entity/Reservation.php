@@ -33,8 +33,8 @@ class Reservation
     /**
      * @ORM\Column(type="string")
      * @Assert\Choice(
-     *    choices={"¹ãÖİ·Ö²¿","ÄÏº£·Ö²¿","Ë³µÂ·Ö²¿","ÌìºÓ·Ö²¿","ÕØÇì·Ö²¿","³É¶¼Ò»²¿","³É¶¼¶ş²¿"},
-     *    message= "ÇëÑ¡Ôñ·şÎñ·Ö²¿"
+     *    choices={"å¹¿å·åˆ†éƒ¨","å—æµ·åˆ†éƒ¨","é¡ºå¾·åˆ†éƒ¨","å¤©æ²³åˆ†éƒ¨","è‚‡åº†åˆ†éƒ¨","æˆéƒ½ä¸€éƒ¨","æˆéƒ½äºŒéƒ¨"},
+     *    message= "è¯·é€‰æ‹©æœåŠ¡åˆ†éƒ¨"
      * )
      */
     protected $department;
@@ -46,9 +46,9 @@ class Reservation
 
     /**
      * @ORM\Column(type="bigint",nullable=true)
-     * @Assert\Length(max="11",maxMessage="ÊÖ»úºÅÂë¹ı³¤£¬ÇëÖØĞÂÊäÈë£¡")
-     * @Assert\Length(min="11",minMessage="ÊÖ»úºÅÂë¹ı¶Ì£¬ÇëÖØĞÂÊäÈë£¡")
-     * @Assert\Regex(pattern="/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/", message="ÊÖ»úºÅÂë²»ÕıÈ·£¬ÇëÖØĞÂÊäÈë!")
+     * @Assert\Length(max="11",maxMessage="æ‰‹æœºå·ç è¿‡é•¿ï¼Œè¯·é‡æ–°è¾“å…¥ï¼")
+     * @Assert\Length(min="11",minMessage="æ‰‹æœºå·ç è¿‡çŸ­ï¼Œè¯·é‡æ–°è¾“å…¥ï¼")
+     * @Assert\Regex(pattern="/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/", message="æ‰‹æœºå·ç ä¸æ­£ç¡®ï¼Œè¯·é‡æ–°è¾“å…¥!")
      */
     protected $cellphone;
 
@@ -72,6 +72,21 @@ class Reservation
      */
     protected $remark;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $enabled;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    protected $createdAt;
+
+    public function __construct(){
+        $this->enabled = false;
+        $this->createdAt = new \DateTime('now');
+    }
+
     public function getId(){
         return $this->id;
     }
@@ -88,7 +103,7 @@ class Reservation
         return $this->department;
     }
 
-    public function setDepartMent($department){
+    public function setDepartment($department){
         $this->department = $department;
     }
 
@@ -138,5 +153,23 @@ class Reservation
 
     public function setRemark($remark){
         $this->remark = $remark;
+    }
+
+    public function getEnabled(){
+        return $this->enabled;
+    }
+
+    public function setEnabled($boolean){
+        $this->enabled = (boolean) $boolean;
+        return $this;
+    }
+
+    public function getCreatedAt(){
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTime $date = null){
+        $this->createdAt = $date;
+        return $this;
     }
 }

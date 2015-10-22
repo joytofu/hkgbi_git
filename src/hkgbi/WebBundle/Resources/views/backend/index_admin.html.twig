@@ -9,7 +9,7 @@
     {#通知公告块#}
     <div class="row">
       <div class="col-md-6">
-          <div class="box box-solid">
+          <div class="box box-solid bg-yellow-gradient">
             <div class="box-body">
                 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
@@ -49,28 +49,39 @@
         </div><!-- /.box -->
       </div>
       <div class="col-md-3" style="width:20%">
-            <div class="box box-primary" >
-                <div class="box-header with-border">
+          <div class="box box-info bg-purple-gradient" >
+                <div class="box-header with-border" style="color:white">
                     <h3 class="box-title">首页幻灯片</h3>
                 </div>
-
-
              <form name="slider" method="post" action="{{ path('index') }}" enctype="multipart/form-data">
-                <div class="box-body">
-                    <div class="form-group">
+                <div class="box-body" style="padding-bottom:0">
+                    <div class="form-group" style="margin-bottom:6px">
                         <label class="control-label" for="slider_imageFile_file">图片播放器(图片尺寸1906x620)</label>
                         <input type="file" id="slider_imageFile_file" name="slider[imageFile][file]">
                     </div>
                 </div>
-                <div class="box-footer">
+                <div class="box-footer bg-purple-gradient">
                     <button class="btn btn-primary" type="submit" id="_submit" name="_submit" >保存修改</button>
                 </div>
                 {{ form_widget(slider_form._token) }}
               </form>
             </div>
+          <div class="info-box bg-yellow">
+              <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+              <div class="info-box-content">
+                  <span class="info-box-text"><b>总预约</b></span>
+                  <span class="info-box-number">{{ num_of_reservation }}</span>
+                  <div class="progress">
+                      <div class="progress-bar" style="width: 50%"></div>
+                  </div>
+                  <span class="progress-description">
+                    在线预约基金总人数
+                  </span>
+              </div><!-- /.info-box-content -->
+          </div>
       </div>
       <div class="col-md-3">
-          <div class="box box-solid">
+          <div class="box box-solid bg-blue">
               <div class="box-header with-border">
                   <h3 class="box-title">内页Banner图</h3>
               </div>
@@ -86,13 +97,38 @@
                   <form name="banner" method="post" action="{{ path('index') }}" enctype="multipart/form-data">
                       <div class="form-group">
                           <input type="file" id="banner_imageFile_file" name="banner[imageFile][file]">
-                          <button type="submit" class="btn btn-primary pull-right" style="margin-top:20px">上传</button>
+                          <button type="submit" class="btn btn-primary pull-right">上传</button>
                       </div>
                       {{ form_widget(banner_form._token) }}
                   </form>
               </div>
 
           </div>
+          <div class="small-box bg-aqua">
+              <div class="inner" style="padding-left:10px;padding-bottom:5px">
+                  <h3>{{ num_of_new_reservation }}</h3>
+                  <p>新预约</p>
+              </div>
+              <div class="icon">
+                  <i class="ion ion-person-add"></i>
+              </div>
+              <a href="{{ path('article_list',{'identifier':'service'}) }}" class="small-box-footer">
+                  查看详情 <i class="fa fa-arrow-circle-right"></i>
+              </a>
+          </div>
+          {#<div class="info-box bg-aqua">#}
+              {#<span class="info-box-icon"><i class="ion ion-person-add"></i></span>#}
+              {#<div class="info-box-content">#}
+                  {#<span class="info-box-text">新预约</span>#}
+                  {#<span class="info-box-number">{{ num_of_new_reservation }}</span>#}
+                  {#<div class="progress">#}
+                      {#<div class="progress-bar" style="width: 40%"></div>#}
+                  {#</div>#}
+                  {#<span class="progress-description">#}
+                    {#新预约及未审核#}
+                  {#</span>#}
+              {#</div><!-- /.info-box-content -->#}
+          {#</div>#}
       </div>
     </div>
 
