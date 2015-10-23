@@ -11,59 +11,70 @@
             <div class="leftmain">
                 <ul>
                 {% set i=1 %}
-                {% for category in category_list %}
-                    {% if category.name=='cover' %}{% else %}
-                    <li><a href="javascript:;" value="{{ category.id }}">{{ category.name }}</a></li>
+                {% if module.name=='客户服务' %}
+                    <li><a href="javascript:void(0)"  data-toggle="modal" data-target="#reservation" data-whatever="@mdo">在线预约</a></li>
+                {% endif %}
+                    {% if module.name=='关于我们' %}
+                        {% for article in module.articles %}
+                            <li><a href="javascript:;" value="{{ article.id }}">{{ article.title }}</a></li>
+                        {% endfor %}
+                    {% else %}
+                       {% for category in category_list %}
+                           {% if category.name=='cover' %}{% else %}
+                           <li><a href="javascript:;" value="{{ category.id }}">{{ category.name }}</a></li>
+                           {% endif %}
+                           {% set i=i+1 %}
+                       {% endfor %}
                     {% endif %}
-                    {% set i=i+1 %}
-                {% endfor %}
                 </ul>
             </div>
         </div>
 
         <div class="right">
-                       <div class="righttop"><div class="ll">{% if module.name=='客户服务' %}在线预约{% else %}{{ module.name }}{% endif %}</div><div class="rr">您当前的位置是：<a href="{{ path('frontend_index') }}">网站首页</a> > {{ module.name }}</div></div>
+                       <div class="righttop">
+                           <div class="ll">{% if module.name=='客户服务' %}常见问题{% elseif module.name=='关于我们' %}公司简介{% else %}{{ module.name }}{% endif %}</div>
+                           <div class="rr">您当前的位置是：<a href="{{ path('frontend_index') }}">网站首页</a> > {{ module.name }}</div></div>
                        <div class="rightmain">
                            {% if module.name=='加入我们' %}
                                 {{ render(controller('hkgbiWebBundle:frontend/Default:JoinUsCover')) }}
                            {% elseif module.name=='客户服务' %}
-                               {% include '@hkgbiWeb/frontend/reservation.html.twig' %}
+                               {{ module.articles[0].getContent()|raw }}
+                           {% elseif module.name=='关于我们' %}
+                               {{ module.articles[0].getContent()|raw }}
                            {% endif %}
                        </div>
         </div>
+    </div>
 
-        {#预约modal框#}
-        <div class="modal fade" id="new_module" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">在线预约</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form name="resevation" method="post" action="{{ path('reservation') }}">
-
-
-                        </form></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="submit" class="btn btn-primary">确定添加</button>
-                    </div>
-
+    {% if module.identifier=='service' %}
+    {#在线预约modal框#}
+    <div class="modal fade" id="reservation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">在线预约</h4>
+                </div>
+                <div class="modal-body">
+                    {% include '@hkgbiWeb/frontend/reservation.html.twig' %}
                 </div>
             </div>
         </div>
-
     </div>
+    {% endif %}
+
 {% endblock %}
 
 {% block private_js %}
     <script src="{{ asset('bundles/hkgbiweb/js/admin/bootstrap.min.js') }}"></script>
     <script src="{{ asset('bundles/hkgbiweb/js/admin/app.min.js') }}"></script>
+
+    {#非关于我们的左侧栏菜单操作#}
+    {% if module.name!='关于我们' %}
     <script>
         $(function(){
             $('.leftmain ul li a').click(function(){
-                if($(this).text()!=='在线预约'){
+                if($(this).text()!=='在线预约'&&$(this).text()!=='常见问题'){
                     var $id = $(this).attr('value');
                     var $cate_name = $(this).text();
                     $.ajax({
@@ -81,6 +92,30 @@
 
         })
     </script>
+    {% endif %}
+
+    {#‘关于我们’的左侧栏菜单操作#}
+    {% if module.name=='关于我们' %}
+        <script>
+            $(function(){
+                $(document).on('click','.leftmain ul li a',function(){
+                    var $id = $(this).attr('value');
+                    var $cate_name = $(this).text();
+                    $.ajax({
+                        url:"{{ app.request.baseurl }}/module/article/"+$id,
+                        success: function(data){
+                            var $content = "您当前的位置是：网站首页 > " + "{{ module.name }}" +" > " +$cate_name;
+                            $('.rr').html($content);
+                            $('.ll').html($cate_name);
+                            $('.rightmain').html(data);
+                        }
+                    })
+                })
+            })
+        </script>
+    {% endif %}
+
+    {#分类文章列表操作操作#}
     <script>
         $(function(){
                 $(document).on("click",".rightmain div p a",function(){
@@ -98,5 +133,17 @@
                 })
         });
     </script>
+
+    {#在线预约modal框操作#}
+    {% if module.identifier=='service' %}
+    <script>
+        $(function(){
+            $('#reservation').modal({
+                show:true,
+                backdrop:true
+            })
+        });
+    </script>
+    {% endif %}
 
 {% endblock %}

@@ -45,7 +45,7 @@ class Article
     protected $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="hkgbi\WebBundle\Entity\Category", inversedBy="articles",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="hkgbi\WebBundle\Entity\Category", inversedBy="articles")
      * @ORM\JoinColumn(name="cate_id",referencedColumnName="id")
      */
     protected $category;
@@ -58,7 +58,6 @@ class Article
 
     public function __construct(){
         $this->createdAt = new \DateTime('now');
-        $this->categories = new ArrayCollection();
     }
 
     public function getId(){
