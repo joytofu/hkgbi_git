@@ -107,7 +107,7 @@
                           {#添加净值#}
                              {{ render(controller('hkgbiWebBundle:backend/Product:newValue')) }}
                           {#净值列表#}
-                             <div class='modal fade' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel'>
+                             <div class='modal fade' id="value_list_modal" tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel'>
                                  <div class='modal-dialog' role='document'>
                                      <div class='modal-content'>
                                          <div class='modal-header'>
@@ -223,8 +223,8 @@
                     $.ajax({
                         url:"{{ app.request.baseUrl }}/admin/product/value/list/"+$product_id,
                         success:function(data){
-//                           $('#value_list').addClass('in');
                             $('#value_list').html(data);
+                            $('#value_list_modal').modal({show:true});
                         }
                     })
                 });

@@ -10,6 +10,7 @@
                     {% for value in values %}
                     <li>
                         <span class='text'>{{ value.valueDate|date('yyyy-MM-dd') }}</span>
+                        <span class="text">|</span>
                         <span class='text'>{{ value.value }}</span>
                         <div class='tools'>
                             <a href=''><i class='fa fa-edit' style='font-size:18px'></i></a>
