@@ -101,7 +101,7 @@ class ProductController extends Controller
         $values = $em->getRepository('hkgbiWebBundle:Value')->findBy(array('product'=>$product),array('value_date'=>'DESC'));
         $content = array();
         foreach($values as $value){
-            $content[] = "<li><span class='text'>{$value->getValueDate()->format("yyyy-mm-dd")}</span><span class='text'>{$value->getValue()}</span>
+            $content[] = "<li><span class='text'>{$value->getValueDate()->format("Y-m-d")}</span><span class='text'>{$value->getValue()}</span>
                                                          <div class='tools'>
                                                              <a href=''><i class='fa fa-edit' style='font-size:18px'></i></a>
                                                              <a href='javascript:void(0)' onclick=''><i class='fa fa-trash-o' style='font-size:18px'></i></a>
