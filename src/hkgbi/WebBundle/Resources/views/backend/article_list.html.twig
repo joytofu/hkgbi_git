@@ -218,7 +218,7 @@
     {% if identifier=='products' %}
         <script>
             $(function(){
-                $('#value_list_button').click(function(){
+                $(document).on('click','#value_list_button',function(){
                     var $product_id = $(this).attr('value');
                     $.ajax({
                         url:"{{ app.request.baseUrl }}/admin/product/value/list/"+$product_id,
