@@ -17,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use hkgbi\WebBundle\Controller\backend\ProductController;
 
 /**
  * @Route("/admin/article")
@@ -99,6 +100,7 @@ class ArticleController extends Controller
         }else{
             $no_cate_articles = $module_obj->getArticles();
         }
+
         //$articles = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('module' => $module_obj));
         return $this->render('hkgbiWebBundle:backend:article_list.html.twig',array(
             'articles_array'=>$articles_array,

@@ -54,8 +54,14 @@ class Product
      */
     protected $sort;
 
+    /**
+     * @ORM\Column(type="date",nullable=true)
+     */
+    protected $createdAt;
+
     public function __construct(){
         $this->values = new ArrayCollection();
+        $this->createdAt = new \DateTime('now');
         $this->sort = 999;
     }
 
@@ -115,6 +121,15 @@ class Product
 
     public function setOrder($order){
         $this->order = $order;
+    }
+
+    public function getCreatedAt(){
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTime $date = null){
+        $this->createdAt = $date;
+        return $this;
     }
 
 

@@ -84,6 +84,9 @@
                  {% else %}
                      <div class="box-body">
                          <ul class="todo-list ui-sortable">
+                             {% if identifier=='products' %}
+                                 {{ render(controller('hkgbiWebBundle:backend/Product:productList')) }}
+                             {% endif %}
                              {% for article in no_cate_articles %}
                                  <li>
                                      <!-- todo text -->
@@ -96,6 +99,30 @@
                                  </li>
                              {% endfor %}
                          </ul>
+                         {% if identifier=='products' %}
+                         <div style="margin-top:2%">
+                             <a href="{{ path('create_product') }}"><button class="btn btn-primary pull-right"><i class="fa fa-plus"></i>添加产品</button></a>
+                             <button class="btn btn-primary pull-right" style="margin-right:10px" data-toggle="modal" data-target="#new_value" data-whatever="@mdo"><i class="fa fa-plus"></i>添加净值</button>
+                         </div>
+                          {#添加净值#}
+                             {{ render(controller('hkgbiWebBundle:backend/Product:newValue')) }}
+                          {#净值列表#}
+                             <div class='modal fade' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel'>
+                                 <div class='modal-dialog' role='document'>
+                                     <div class='modal-content'>
+                                         <div class='modal-header'>
+                                             <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden="true">&times;</span></button>
+                                             <h4 class='modal-title' id='exampleModalLabel'>基金净值列表</h4>
+                                         </div>
+                                         <div class='modal-body'>
+                                             <ul class='todo-list ui-sortable' id="value_list">
+
+                                             </ul>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         {% endif %}
                      </div>
                  {% endif %}
             {#<div class="box-footer clearfix no-border">
@@ -147,6 +174,14 @@
                 window.location.href="{{ app.request.baseurl }}/reservation/delete/"+id;
             }
         }
+
+        {% if identifier=='products' %}
+        function deleteproduct(id){
+            if(confirm('你确定删除该产品吗?')){
+                window.location.href="{{ app.request.baseurl }}/product/delete/"+id;
+            }
+        }
+        {% endif %}
     </script>
     <script>
         /*验证预约*/
@@ -179,5 +214,22 @@
             })
         })
     </script>
+
+    {% if identifier=='products' %}
+        <script>
+            $(function(){
+                $('#value_list_button').click(function(){
+                    var $product_id = $(this).attr('value');
+                    $.ajax({
+                        url:"{{ app.request.baseUrl }}/admin/product/value/list/"+$product_id,
+                        success:function(data){
+//                           $('#value_list').addClass('in');
+                            $('#value_list').html(data);
+                        }
+                    })
+                });
+            })
+        </script>
+    {% endif %}
 
 {% endblock %}

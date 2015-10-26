@@ -11,12 +11,14 @@
                     </div><!-- /. tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body pad">
-                    <form method="post" action="{{ path('newproduct') }}">
-                        <input type="text" placeholder="请输入基金名称" style="width:300px;height:35px" class="form-group" id="product_name" name="product[name]">
-                        <input type="text" placeholder="请输入基金类型" style="width:20%;height:35px;margin-left:50px;display:inline-block" class="form-group" id="product_type" name="product[type]">
+                    <form method="post" action="{{ path('create_product') }}">
+                        {#<input type="text" placeholder="请输入基金名称" style="width:300px;height:35px" class="form-group" id="product_name" name="product[name]">#}
+                        {{ form_widget(form.name,{'attr':{'style':'width:300px;height:35px;display:inline'}}) }}
+                        {#<input type="text" placeholder="请输入基金类型" style="width:20%;height:35px;margin-left:50px;display:inline-block" class="form-group" id="product_type" name="product[type]">#}
+                        {{ form_widget(form.type,{'attr':{'style':'width:20%;height:35px;margin-left:50px;display:inline-block'}}) }}
                         <span style="margin-left: 50px">成立日期</span>
                         {{ form_widget(form.created_date,{'attr':{'style':'width:20%;height:35px;display:inline-block'}}) }}
-                        <script id="container" name="product[product_overview]" type="text/plain"></script>
+                        <script id="container" name="product[product_overview]" type="text/plain">{% if edit is defined %}{{ overview|raw }}{% endif %}</script>
                         <button class="btn btn-instagram" type="submit">提交</button>
                         {{ form_widget(form._token) }}
                     </form>

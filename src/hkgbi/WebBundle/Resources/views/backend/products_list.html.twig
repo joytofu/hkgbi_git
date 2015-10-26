@@ -1,0 +1,12 @@
+{% for product in products %}
+    <li>
+        <!-- todo text -->
+        <span class="text">{{ product.name }}</span>
+        {#<small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>#}
+        <div class="tools">
+            <a href="javascript:void(0)" id="value_list_button" value="{{ product.id }}"><i class="fa fa-sort-numeric-asc"></i></a>
+            <a href="{{ path('edit_product',{'id':product.getId()}) }}"><i class="fa fa-edit" style="font-size:18px"></i></a>
+            <a href="javascript:void(0)" onclick="deleteproduct({{ product.id }})"><i class="fa fa-trash-o" style="font-size:18px"></i></a>
+        </div>
+    </li>
+{% endfor %}
