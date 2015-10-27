@@ -104,6 +104,7 @@ vich_uploader:
             inject_on_load:     true
             delete_on_update:   false
             delete_on_remove:   false
+            namer:              vich_uploader.namer_uniqid
         upload_file:
             uri_prefix:         /bundles/hkgbiweb/downloadfiles
             upload_destination: %kernel.root_dir%/../web/bundles/hkgbiweb/downloadfiles

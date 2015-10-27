@@ -1,0 +1,20 @@
+
+                <form name="value" method="post" action="{{ path('edit_value',{'id':id}) }}">
+                <div class="form-group">
+                    <label class="control-label required" for="form_product">选择基金</label>
+                    {{ form_widget(form.product) }}
+                </div>
+                <div class="form-group">
+                    <label class="control-label required" for="form_value_date">净值日期</label>
+                    {{ form_widget(form.value_date) }}
+                </div>
+                <div class="form-group">
+                    <label class="control-label required" for="form_value">单位净值</label>
+                    {{ form_widget(form.value) }}
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary">确定修改</button>
+            </div>
+            {{ form_end(form) }}
+

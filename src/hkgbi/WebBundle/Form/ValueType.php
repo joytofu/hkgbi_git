@@ -34,6 +34,7 @@ class ValueType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'hkgbi\WebBundle\Entity\Value',
+            'csrf_protection' => false
         ));
     }
 

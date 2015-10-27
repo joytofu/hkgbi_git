@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping\OneToMany;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 
 /**
@@ -14,6 +16,7 @@ use Doctrine\ORM\Mapping\OneToMany;
  *
  * @ORM\Table(name="product")
  * @ORM\Entity
+ * @Vich\Uploadable
  */
 class Product
 {
@@ -33,6 +36,12 @@ class Product
      * @ORM\Column(type="string")
      */
     protected $type;
+
+    /**
+     * @ORM\Column(type="text",nullable=true)
+     */
+    protected $intro;
+
 
     /**
      * @ORM\Column(type="date")
@@ -55,9 +64,23 @@ class Product
     protected $sort;
 
     /**
-     * @ORM\Column(type="date",nullable=true)
+     * @ORM\Column(type="datetime",nullable=true)
      */
     protected $createdAt;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="upload_image", fileNameProperty="imageName")
+     * @var File
+     */
+    protected $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255,name="image_name",nullable=true)
+     * @var string
+     */
+    protected $imageName;
 
     public function __construct(){
         $this->values = new ArrayCollection();
@@ -115,12 +138,12 @@ class Product
         $this->values->removeElement($values);
     }
 
-    public function getOrder(){
-        return $this->order;
+    public function getSort(){
+        return $this->sort;
     }
 
-    public function setOrder($order){
-        $this->order = $order;
+    public function setSort($sort){
+        $this->sort = $sort;
     }
 
     public function getCreatedAt(){
@@ -130,6 +153,44 @@ class Product
     public function setCreatedAt(\DateTime $date = null){
         $this->createdAt = $date;
         return $this;
+    }
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+    }
+
+    /**
+     * @return File
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param string $imageName
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    public function getIntro(){
+        return $this->intro;
+    }
+
+    public function setIntro($intro){
+        $this->intro = $intro;
     }
 
 

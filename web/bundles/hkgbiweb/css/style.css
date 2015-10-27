@@ -1,4 +1,7 @@
 @charset "UTF-8";
+a{
+ text-decoration: none;
+}
 .index_2{ width:25%;color:#e81d25; margin:20px auto; height:34px; line-height:34px; text-align:right; font-family:微软雅黑;font-size:24px; margin-bottom:10px;}
 .foot {
  width: 1200px;
@@ -13,3 +16,43 @@
 .category:hover{
  background-color: #67a8ce;
 }
+.jingxuan{
+ width: 1200px;
+ margin: 0 auto;
+ overflow: hidden;
+}
+.ipro{
+ width: 372px;
+ padding-top: 10px;
+ padding-left: 12px;
+ height: 520px;
+ float: left;
+ margin-right: 23px;
+ overflow: hidden;
+ margin-bottom: 23px;
+}
+.ipro img{
+ width: 360px;
+ height: 200px;
+}
+.ipro p{
+ width: 360px;
+ height: 25px;
+ line-height: 20px;
+ padding-top: 10px;
+ font-size: 17px;
+ text-align: center;
+}
+.pro_txt {
+ width: 360px;
+ height: 50px;
+ line-height: 25px;
+ font-size: 14px;
+ padding-top: 10px;
+ overflow: hidden;
+}
+#nn {
+ text-align: left;
+ text-indent: 90px;
+}
+

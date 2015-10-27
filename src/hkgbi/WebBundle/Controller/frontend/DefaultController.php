@@ -147,4 +147,10 @@ class DefaultController extends Controller
         return $form->createView();
 /*        return $this->render('@hkgbiWeb/frontend/reservation.html.twig',array('form'=>$form->createView()));*/
     }
+
+    public function productListAction(){
+        $em = $this->getDoctrine()->getManager();
+        $products = $em->getRepository('hkgbiWebBundle:Product')->findBy(array(),array('sort'=>'DESC'),3);
+        return $this->render('@hkgbiWeb/frontend/index_fund.html.twig',array('products'=>$products));
+    }
 }

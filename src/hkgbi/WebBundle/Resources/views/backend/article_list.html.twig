@@ -114,14 +114,12 @@
                                              <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden="true">&times;</span></button>
                                              <h4 class='modal-title' id='exampleModalLabel'>基金净值列表</h4>
                                          </div>
-                                         <div class='modal-body'>
-                                             <ul class='todo-list ui-sortable' id="value_list">
-
-                                             </ul>
+                                         <div class='modal-body' id="value_list_body">
                                          </div>
                                      </div>
                                  </div>
                              </div>
+
                          {% endif %}
                      </div>
                  {% endif %}
@@ -217,18 +215,43 @@
 
     {% if identifier=='products' %}
         <script>
+            /*展出净值列表*/
             $(function(){
                 $(document).on('click','#value_list_button',function(){
                     var $product_id = $(this).attr('value');
                     $.ajax({
                         url:"{{ app.request.baseUrl }}/admin/product/value/list/"+$product_id,
                         success:function(data){
-                            $('#value_list').html(data);
+                            $('#value_list_body').html(data);
                             $('#value_list_modal').modal({show:true});
                         }
                     })
                 });
             })
+
+            /*显示出编辑净值form*/
+            $(function(){
+                $(document).on('click','#edit_value_button',function(){
+                    var $value_id = $(this).attr('value');
+                    $.ajax({
+                        url:"{{ app.request.baseUrl }}/admin/product/value/edit/"+$value_id,
+                    success:function(data){
+                        $('#value_list_body').html(data);
+                    }
+                    })
+                })
+            })
+
+            /*更新基金产品排序*/
+                $(function(){
+                        $(document).on('change','#product_sort',function(){
+                                var $pid = $(this).attr('pid');
+                                var $sort = $(this).val();
+                                $.ajax({
+                                    url:"{{ app.request.baseUrl }}/admin/product/"+$pid+"/sort/"+$sort,
+                                })
+                        })
+                })
         </script>
     {% endif %}
 

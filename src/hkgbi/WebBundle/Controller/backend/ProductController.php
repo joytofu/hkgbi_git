@@ -31,7 +31,7 @@ class ProductController extends Controller
         if($form->isSubmitted()&&$form->isValid()){
             $em->persist($product);
             $em->flush();
-            $redirect_url = $this->generateUrl('productlist');
+            $redirect_url = $this->generateUrl('article_list',array('identifier'=>'products'));
             return new Response("<script>alert('添加产品成功!');window.location.href='$redirect_url';</script>");
         }
 
@@ -101,15 +101,44 @@ class ProductController extends Controller
         $values = $em->getRepository('hkgbiWebBundle:Value')->findBy(array('product'=>$product),array('value_date'=>'DESC'));
         $content = array();
         foreach($values as $value){
-            $content[] = "<li><span class='text'>{$value->getValueDate()->format("Y-m-d")}</span><span class='text'>{$value->getValue()}</span>
+            $content[] = "<ul class='todo-list ui-sortable' id='value_list'><li><span class='text'>{$value->getValueDate()->format("Y-m-d")}</span> | <span class='text'>{$value->getValue()}</span>
                                                          <div class='tools'>
-                                                             <a href=''><i class='fa fa-edit' style='font-size:18px'></i></a>
+                                                             <a href='javascript:void(0)' id='edit_value_button' value={$value->getId()}><i class='fa fa-edit' style='font-size:18px'></i></a>
                                                              <a href='javascript:void(0)' onclick=''><i class='fa fa-trash-o' style='font-size:18px'></i></a>
                                                          </div>
-                                                     </li>";
+                                                     </li></ul>";
         }
         $value_list = implode('',$content);
         return new Response("$value_list");
+    }
+
+    /**
+     * @Route("/value/edit/{id}",name="edit_value")
+     * @ParamConverter("value", class="hkgbiWebBundle:Value")
+     */
+    public function editValueAction(Value $value, Request $request,$id){
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new ValueType(),$value);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->isValid()){
+            $em->flush();
+            $redirect_url = $this->generateUrl('article_list',array('identifier'=>'products'));
+            return new Response("<script>alert('净值修改成功!');window.location.href='$redirect_url';</script>");
+        }
+        $template = $this->renderView('@hkgbiWeb/backend/edit_value.html.twig',array('form'=>$form->createView(),'id'=>$id));
+        return new Response($template);
+
+    }
+
+    /**
+     * @Route("/{pid}/sort/{sort}",name="sort_product")
+     */
+    public function setSort($pid,$sort){
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository('hkgbiWebBundle:Product')->find($pid);
+        $product->setSort($sort);
+        $em->flush();
+        return new Response();
     }
 
 }
