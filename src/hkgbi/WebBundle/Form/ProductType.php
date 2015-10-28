@@ -24,7 +24,7 @@ class ProductType extends AbstractType
             ->add('name',null,array('label'=>'基金名称','attr'=>array('placeholder'=>'基金名称')))
             ->add('type',null,array('label'=>'基金类型','attr'=>array('placeholder'=>'基金类型')))
             ->add('created_date','date',array('label'=>'成立日期','widget'=>'choice','format'=>'yyyy-MM-dd','years'=>range(2015,2015,1)))
-            ->add('imageFile','vich_image',array('required'=>false))
+            ->add('imageFile','vich_image',array('label'=>'缩略图','required'=>false))
             ->add('intro',null)
             ->add('product_overview',null)
         ;

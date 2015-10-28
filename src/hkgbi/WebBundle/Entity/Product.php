@@ -193,5 +193,9 @@ class Product
         $this->intro = $intro;
     }
 
+    public function countValues(){
+        return count($this->values);
+    }
+
 
 }

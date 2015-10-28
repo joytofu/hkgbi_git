@@ -23,7 +23,7 @@
                         <li><a href="#d_tab2" data-toggle="tab">软件下载</a></li>
                     {% endif %}
                     {% for category in categories %}
-                        <li {% if i==1 %}class="active"{% endif %}><a href="#tab_{{ i }}" data-toggle="tab" >{{ category.getName() }}</a></li>
+                        <li><a href="#tab_{{ i }}" data-toggle="tab" >{{ category.getName() }}</a></li>
                     {% set i=i+1 %}
                     {% endfor %}
                 {% else %}
@@ -33,14 +33,12 @@
                  {% if categories[0] is defined and categories[0] is not null  %}
                  {% set j=1 %}
                  {% for  articles in articles_array%}
-                  <div class="tab-pane {% if j==1 %}active{% endif %}" id="tab_{{ j }}">
+                  <div class="tab-pane" id="tab_{{ j }}">
                      <div class="box-body">
                        <ul class="todo-list ui-sortable">
                          {% for article in articles %}
                            <li>
-                        <!-- todo text -->
                         <span class="text">{{ article.title }}</span>
-                        {#<small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>#}
                         <div class="tools">
                             <a href="{{ path('edit_article',{'id':article.getId(),'identifier':identifier}) }}"><i class="fa fa-edit" style="font-size:18px"></i></a>
                             <a href="javascript:void(0)" onclick="deletearticle({{ article.id }})"><i class="fa fa-trash-o" style="font-size:18px"></i></a>
@@ -176,7 +174,7 @@
         {% if identifier=='products' %}
         function deleteproduct(id){
             if(confirm('你确定删除该产品吗?')){
-                window.location.href="{{ app.request.baseurl }}/product/delete/"+id;
+                window.location.href="{{ app.request.baseurl }}/admin/product/delete/"+id;
             }
         }
         {% endif %}

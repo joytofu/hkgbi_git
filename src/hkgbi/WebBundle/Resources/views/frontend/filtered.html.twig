@@ -1,0 +1,44 @@
+
+    <div class="clear"></div>
+
+    <!--计算预计年化收益率-->
+    <script type="text/javascript">
+        function annual_yield(createDate,valueDate,fundvalue) {
+            var startDate = Date.parse(createDate);   //转化成时间戳格式
+            var endDate = Date.parse(valueDate);   //转化成时间戳格式
+            var daysStamp = (endDate - startDate) / 86400000;
+            var days = daysStamp + 1;   //基金发行了的天数
+            var yr = (Number(fundvalue) - 1) * 12 / (days / 30);   //预计年化收益率
+            if((yr*100)>=0) {
+                var yr = (yr * 100).toFixed(2) + '%';
+            }else{
+                var yr = '50%';
+            }
+
+        }
+    </script>
+
+    {% for product in products %}
+        <div class="col-md-4">
+            <div class="box box-solid">
+                <div class="box-body">
+                    <img style="width:350px"  src="{{ vich_uploader_asset(product,'imageFile') }}">
+                    <p style="text-align: center;font-family: 微软雅黑"><a style="font-size:24px; color:#da251d" href="{{ path('fund_detail',{'id':product.id}) }}"  target="_blank">{{ product.name }}</a></p>
+                    <div class="pro_txt"></div>
+                    <p id="nn">★ 单位净值:{% if product.values[0] is defined %}{{ product.values[product.countValues()-1].getValue() }}{% endif %}</p>
+                    <p id="nn">★ 净值日期:{% if product.values[0] is defined %}{{ product.values[product.countValues()-1].getValueDate()|date('Y-m-d') }}{% endif %}</p>
+                    <p id="nn">★ 成立日期:{{ product.createdDate|date("Y-m-d") }}</p>
+                    <p id="nn">★ 预计年化收益率:{% if product.values[0] is defined %}<script>annual_yield({{ product.createdDate|date("Y-m-d") }},{{ product.values[product.countValues()-1].getValueDate()|date('Y-m-d') }},{{ product.values[product.countValues()-1].getValue() }})</script>{% endif %}</p>
+                    <a href="javascript:void(0)" target="_blank">
+                        <div class="button red" style="margin-top: 10px;margin-left: 29%;padding: 14px 25px 14px 25px;font-size: 20px;background-color: #9E1414;">
+                            <div class="shine"></div>
+                            立即预约
+                        </div></a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+
+

@@ -28,6 +28,11 @@ class Value
     protected $value;
 
     /**
+     * @ORM\Column(type="float")
+     */
+    protected $hs300;
+
+    /**
      * @ORM\Column(type="date")
      */
     protected $value_date;
@@ -65,6 +70,14 @@ class Value
 
     public function setProduct(Product $product){
         $this->product = $product;
+    }
+
+    public function getHs300(){
+        return $this->hs300;
+    }
+
+    public function setHs300($hs300){
+        $this->hs300 = $hs300;
     }
 
 }

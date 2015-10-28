@@ -1,5 +1,5 @@
 {% for module in menu  %}
     <li class="li_type">
-        <a href="{% if module.name=='私募产品池' %}javascript:void(0){% else %}{{ path('module',{'identifier':module.identifier}) }}{% endif %}" title="{{ module.name }}">{{ module.name }}</a>
+        <a href="{% if module.name=='私募产品池' %}{{ path('fund_products') }}{% else %}{{ path('module',{'identifier':module.identifier}) }}{% endif %}" title="{{ module.name }}">{{ module.name }}</a>
     </li>
     {% endfor %}

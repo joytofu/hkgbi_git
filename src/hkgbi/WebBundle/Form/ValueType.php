@@ -26,7 +26,8 @@ class ValueType extends AbstractType
                 'choice_label'=>'name',
                 'placeholder'=>'请选择基金'))
             ->add('value_date','date',array('label'=>'成立日期','widget'=>'choice','format'=>'yyyy-MM-dd','years'=>range(2015,2015,1)))
-            ->add('value',null)
+            ->add('value',null,array('label'=>'最新净值'))
+            ->add('hs300',null,array('label'=>'沪深300指数'))
         ;
     }
 

@@ -53,15 +53,20 @@ class ProductController extends Controller
      */
     public function editProduct(Product $product, Request $request){
         $em = $this->getDoctrine()->getManager();
-        $product_overview = $product->getProductOverview();
         $edit = 'edit';
+        $thumb = $product->getImageFile();
+        $thumb_name = $product->getImageName();
         $form = $this->createForm(new ProductType(),$product);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
+            if(!isset($_POST['product']['imageFile']['file'])){
+                $product->setImageName($thumb_name);
+            }
             $em->flush();
-            return new Response("<script>alert('修改成功!')</script>");
+            $redirect_url = $this->generateUrl('article_list',array('identifier'=>'products'));
+            return new Response("<script>alert('修改成功!');window.location.href='$redirect_url';</script>");
         }
-        return $this->render('@hkgbiWeb/backend/create_product.html.twig',array('form'=>$form->createView(),'overview'=>$product_overview,'edit'=>$edit));
+        return $this->render('@hkgbiWeb/backend/create_product.html.twig',array('form'=>$form->createView(),'edit'=>$edit,'thumb'=>$thumb,'product'=>$product));
     }
 
     /**
@@ -72,6 +77,7 @@ class ProductController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($product);
         $em->flush();
+        return $this->redirectToRoute('productlist');
     }
 
     /**

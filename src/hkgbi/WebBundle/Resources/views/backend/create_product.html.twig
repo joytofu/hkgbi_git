@@ -1,5 +1,5 @@
 {% extends "@hkgbiWeb/backend/layout_admin.html.twig" %}
-{% block page_header %}新建私募基金{% endblock %}
+{% block page_header %}{% if edit is not defined %}新建私募基金{% else %}修改私募基金{% endif %}{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-md-12">
@@ -11,15 +11,20 @@
                     </div><!-- /. tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body pad">
-                    <form method="post" action="{{ path('create_product') }}" enctype="multipart/form-data">
+                    <form method="post" action="{% if edit is not defined %}{{ path('create_product') }}{% else %}{{ path('edit_product',{'id':product.id}) }}{% endif %}" enctype="multipart/form-data">
                         {{ form_widget(form.name,{'attr':{'style':'width:300px;height:35px;display:inline'}}) }}
                         {{ form_widget(form.type,{'attr':{'style':'width:20%;height:35px;margin-left:10px;display:inline-block'}}) }}
                         <span style="margin-left: 10px">成立日期:</span>
                         {{ form_widget(form.created_date,{'attr':{'style':'width:20%;height:35px;display:inline-block'}}) }}
+                        <div class="form-group">
                         <span style="margin-left: 7px">缩略图:</span>
                         <input type="file" id="product_imageFile_file" name="product[imageFile][file]" style="display: inline-block">
-                        <script id="intro" name="product[intro]" type="text/plain" placeholder="基金简介">{% if edit is defined %}{{ overview|raw }}{% endif %}</script>
-                        <script id="overview" name="product[product_overview]" type="text/plain">{% if edit is defined %}{{ overview|raw }}{% endif %}</script>
+                            {% if thumb is defined %}
+                            <img style="width:200px"  src="{{ vich_uploader_asset(product,'imageFile') }}">
+                            {% endif %}
+                        </div>
+                        <script id="intro" name="product[intro]" type="text/plain" placeholder="基金简介">{% if edit is defined %}{{ product.intro|raw }}{% endif %}</script>
+                        <script id="overview" name="product[product_overview]" type="text/plain">{% if edit is defined %}{{ product.productOverview|raw }}{% endif %}</script>
                         <button class="btn btn-instagram" type="submit">提交</button>
                         {{ form_widget(form._token) }}
                     </form>
@@ -46,9 +51,7 @@
                     'imagecenter','autotypeset','inserttable','charts',
 
                 ]
-            ],
-            initialContent: "请在此输入基金详情",
-            autoClearinitialContent: true
+            ]
         });
     </script>
     <script type="text/javascript">
@@ -63,9 +66,7 @@
 
                 ]
             ],
-            initialFrameHeight: 130,
-            initialContent: "请在此输入基金简介",
-            autoClearinitialContent: true
+            initialFrameHeight: 130
         });
     </script>
 {% endblock %}

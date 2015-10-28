@@ -148,9 +148,15 @@ class DefaultController extends Controller
 /*        return $this->render('@hkgbiWeb/frontend/reservation.html.twig',array('form'=>$form->createView()));*/
     }
 
-    public function productListAction(){
+    public function indexFundAction(){
         $em = $this->getDoctrine()->getManager();
         $products = $em->getRepository('hkgbiWebBundle:Product')->findBy(array(),array('sort'=>'DESC'),3);
         return $this->render('@hkgbiWeb/frontend/index_fund.html.twig',array('products'=>$products));
+    }
+
+    public function innerBannerAction(){
+        $em = $this->getDoctrine()->getManager();
+        $banners = $em->getRepository('hkgbiWebBundle:Banner')->findAll();
+        return $this->render('@hkgbiWeb/frontend/inner_banner.html.twig',array('banners'=>$banners));
     }
 }

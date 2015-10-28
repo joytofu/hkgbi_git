@@ -1,0 +1,34 @@
+{% extends 'hkgbiWebBundle:frontend:base.html.twig' %}
+
+{% block private_css %}
+    <link rel="stylesheet" href="{{ asset('bundles/hkgbiweb/css/style(origin).css') }}">
+    <link rel="stylesheet"  href="{{ asset('bundles/hkgbiweb/css/style.css') }}">
+{% endblock %}
+
+{% block main_content %}
+    {#内页banner图#}
+    {{ render(controller('hkgbiWebBundle:frontend/Default:innerBanner')) }}
+
+    {#基金条件筛选#}
+    {{ render(controller('hkgbiWebBundle:frontend/Fund:fundFilter')) }}
+
+    {#基金列表#}
+    {{ render(controller('hkgbiWebBundle:frontend/Fund:fundList')) }}
+
+{% endblock %}
+
+{% block private_js %}
+    <script>
+        $(function(){
+            $(document).on('click','.ss a',function(){
+                var $condition = $(this).attr('value');
+                $.post("{{ app.request.baseUrl }}/products/filtered/"+$condition,
+                        {type:$condition},
+                        function(data){
+                            $('.jingxuan').html(data);
+                        }
+                )
+            })
+        })
+    </script>
+{% endblock %}
