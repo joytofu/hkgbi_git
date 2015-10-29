@@ -33,6 +33,7 @@ class ReservationType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'hkgbi\WebBundle\Entity\Reservation',
+            'csrf_protection' => false
         ));
     }
 

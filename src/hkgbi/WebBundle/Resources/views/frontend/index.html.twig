@@ -38,7 +38,26 @@
 {#首页精选基金 #}
 {{ render(controller('hkgbiWebBundle:frontend/Default:indexFund')) }}
 
-
+{#首页预约横幅 #}
+    <div class="index_tu">
+        <button data-toggle="modal" data-target="#reservation" class="button red" style="margin-top: 240px;margin-left: 26%;padding: 14px 25px 14px 25px;font-size: 16px;background-color: #9E1414;font-family:微软雅黑">
+                    <div class="shine"></div>
+                    立即预约
+                </button></div>
+    {#在线预约modal框#}
+    <div class="modal fade" id="reservation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">在线预约</h4>
+                </div>
+                <div class="modal-body">
+                    {{ render(controller('hkgbiWebBundle:frontend/Default:reserve')) }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 

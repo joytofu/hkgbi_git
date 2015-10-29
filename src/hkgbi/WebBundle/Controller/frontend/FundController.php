@@ -10,6 +10,8 @@ namespace hkgbi\WebBundle\Controller\frontend;
 
 
 use hkgbi\WebBundle\Entity\Product;
+use hkgbi\WebBundle\Entity\Reservation;
+use hkgbi\WebBundle\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -66,8 +68,19 @@ class FundController extends Controller
      * @Route("/{id}",name="fund_detail")
      * @ParamConverter("product", class="hkgbiWebBundle:Product")
      */
-    public function fundDetail(Product $product){
-        return $this->render('@hkgbiWeb/frontend/fund_detail.html.twig',array('product'=>$product));
+    public function fundDetail(Product $product, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $reservation = new Reservation();
+        $form = $this->createForm(new ReservationType(),$reservation);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->isValid()){
+            $reservation->setFundName($product->getName());
+            $em->persist($reservation);
+            $em->flush();
+            $redirect_url = $this->generateUrl('fund_detail',array('id'=>$product->getId()));
+            return new Response("<script>alert('恭喜你，预约成功，请等待工作人员与你联系！');window.location.href='$redirect_url';</script>");
+        }
+        return $this->render('@hkgbiWeb/frontend/fund_detail.html.twig',array('product'=>$product,'form'=>$form->createView()));
     }
 
 

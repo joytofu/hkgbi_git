@@ -38,12 +38,6 @@ class DefaultController extends Controller
         $images = $em->getRepository('hkgbiWebBundle:Slider')->findBy(array(),array('sort'=>'DESC'));
         $count = count($images);
 
-        /*//footer内容
-        $footer = $em->getRepository('hkgbiWebBundle:Juniu2List')->findOneBy(array('identifier'=>'lx'));
-        $contact = $footer->getNote();
-        $footer = $em->getRepository('hkgbiWebBundle:Juniu2List')->findOneBy(array('identifier'=>'dibu'));
-        $bottom_nav = $footer->getNote();*/
-
 
         return $this->render('@hkgbiWeb/frontend/index.html.twig',array(
             'site_title'=>$site_title,
@@ -144,8 +138,7 @@ class DefaultController extends Controller
             $em->flush();
             return new Response("<script>alert('您的预约已成功，请等待工作人员与您联系!');window.location.href='/';</script>");
         }
-        return $form->createView();
-/*        return $this->render('@hkgbiWeb/frontend/reservation.html.twig',array('form'=>$form->createView()));*/
+        return $this->render('@hkgbiWeb/frontend/reservation.html.twig',array('form'=>$form->createView()));
     }
 
     public function indexFundAction(){
@@ -159,4 +152,5 @@ class DefaultController extends Controller
         $banners = $em->getRepository('hkgbiWebBundle:Banner')->findAll();
         return $this->render('@hkgbiWeb/frontend/inner_banner.html.twig',array('banners'=>$banners));
     }
+
 }
