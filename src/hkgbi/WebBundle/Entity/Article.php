@@ -12,12 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\OneToMany;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Article
  *
  * @ORM\Table(name="article")
  * @ORM\Entity
+ * @Vich\Uploadable
  */
 class Article
 {
@@ -39,6 +42,11 @@ class Article
     protected $content;
 
     /**
+     * @ORM\Column(type="text",nullable=true)
+     */
+    protected $intro;
+
+    /**
      * @ORM\Column(type="datetime",nullable=true)
      * @var \DateTime
      */
@@ -56,8 +64,28 @@ class Article
      */
     protected $module;
 
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="upload_image", fileNameProperty="imageName")
+     * @var File
+     */
+    protected $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255,name="image_name",nullable=true)
+     * @var string
+     */
+    protected $imageName;
+
+    /**
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    protected $recommended;
+
     public function __construct(){
         $this->createdAt = new \DateTime('now');
+        $this->recommended = false;
     }
 
     public function getId(){
@@ -78,6 +106,14 @@ class Article
 
     public function setContent($content){
         $this->content = $content;
+    }
+
+    public function getIntro(){
+        return $this->intro;
+    }
+
+    public function setIntro($intro){
+        $this->intro = $intro;
     }
 
     public function getCategory(){
@@ -103,6 +139,45 @@ class Article
 
     public function setCreatedAt(\DateTime $date = null){
         $this->createdAt = $date;
+        return $this;
+    }
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+    }
+
+    /**
+     * @return File
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param string $imageName
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    public function getRecommended(){
+        return $this->recommended;
+    }
+
+    public function setRecommended($boolean){
+        $this->recommended = (boolean) $boolean;
         return $this;
     }
     

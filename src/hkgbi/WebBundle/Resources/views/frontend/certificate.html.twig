@@ -1,0 +1,20 @@
+<div class="index_tu2">
+    <a href="" title="基金预约"><div class="button red" style="margin-top: 0px;margin-right: 13px;padding: 14px 25px 14px 25px;font-size: 16px;background-color: #9E1414;">
+            <div class="shine"></div>
+            立即预约
+        </div></a>
+
+    <div class="renz">
+        <ul style="width: 100%">
+            {% for certificate in certificates %}
+            <li><p>{{ certificate.title }}</p>
+                <a href="{% if certificate.link is not null %}{{ certificate.link }}{% else %}{% endif %}" target="_blank" rel="nofollow">
+                    <img src="{{ vich_uploader_asset(certificate,'imageFile') }}">
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+</div>

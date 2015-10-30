@@ -58,6 +58,22 @@
             </div>
         </div>
     </div>
+
+    {#公告动态#}
+    <div class="index_news">
+        <img src="{{ vich_uploader_asset(article,'imageFile') }}">
+        <div class="news_main">
+            <div class="ititle" style="margin-top:0px"><a href="{{ path('module',{'identifier':'notice','article_id':article.id}) }}" title="巨牛公告">{{ article.title }}</a></div>
+            <div class="news_txt" style="height:190px">
+                {{ article.intro|raw }}
+            </div>
+            <div class="i_more"><a href="{{ path('module',{'identifier':'notice'}) }}" title="巨牛公告" style="color:#376db7">查看更多&gt;&gt;</a></div>
+        </div>
+    </div>
+
+    {#认证#}
+    {{ render(controller('hkgbiWebBundle:frontend/Default:indexCertificate')) }}
+
 {% endblock %}
 
 

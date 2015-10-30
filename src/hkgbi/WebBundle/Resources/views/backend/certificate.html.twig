@@ -1,0 +1,16 @@
+{% extends "@hkgbiWeb/backend/layout_admin.html.twig" %}
+{% block page_header %}{% if edit is not defined %}新建凭着{% else %}编辑凭证{% endif %}{% endblock %}
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_row(form.title,{'attr':{'style':'width:200px'}}) }}
+    <div class="form-group">
+        <label class="control-label required" for="certificate_title">选择图片</label>
+        <input type="file" id="certificate_imageFile_file" name="certificate[imageFile][file]">
+        {% if edit is defined %}
+               <img style="width:200px"  src="{{ vich_uploader_asset(certificate,'imageFile') }}">
+        {% endif %}
+    </div>
+    {{ form_row(form.link,{'attr':{'style':'width:250px'}}) }}
+    <button type="submit" class="btn btn-primary">提交</button>
+    </form>
+{% endblock %}

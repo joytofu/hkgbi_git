@@ -38,6 +38,9 @@ class ArticleType extends AbstractType
                 },
                 'choice_label'=>'name'
                 ))
+            ->add('imageFile','vich_image',array('label'=>'缩略图','required'=>false))
+            ->add('recommended','checkbox')
+            ->add('intro',null)
             ->add('content',null);
     }
 
@@ -45,6 +48,7 @@ class ArticleType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'hkgbi\WebBundle\Entity\Article',
+            'csrf_protection' => false
         ));
     }
 

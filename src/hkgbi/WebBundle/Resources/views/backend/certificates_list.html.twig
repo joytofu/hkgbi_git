@@ -1,0 +1,10 @@
+{% for certificate in certificates %}
+    <li>
+        <span class="text">{{ certificate.title }}</span>
+        <div class="tools">
+            <a href="javascript:void(0)" id="value_list_button" value="{{ certificate.id }}" data-toggle="tooltip" data-placement="top" data-html="true" title="<img style='width:150px' src='{{ vich_uploader_asset(certificate,'imageFile') }}'>"><i class="fa fa-line-chart"></i></a>
+            <a href="{{ path('edit_certificate',{'id':certificate.getId()}) }}"><i class="fa fa-edit" style="font-size:18px"></i></a>
+            <a href="javascript:void(0)" onclick="deletecertificate({{ certificate.id }})"><i class="fa fa-trash-o" style="font-size:18px"></i></a>
+        </div>
+    </li>
+{% endfor %}

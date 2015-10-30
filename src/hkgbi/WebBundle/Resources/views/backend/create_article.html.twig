@@ -11,12 +11,17 @@
                     </div><!-- /. tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body pad">
-                    <form method="post" action="{{ path('create_article',{'identifier':identifier}) }}">
+                    <form method="post" action="{{ path('create_article',{'identifier':identifier}) }}" enctype="multipart/form-data">
                         <input type="text" placeholder="请输入标题" style="width:300px;height:35px" class="form-group" id="article_title" name="article[title]">
                         {{ form_widget(form.categories,{'attr':{'style':'width:20%;display:inline-block'}}) }}
+                            <span style="margin-left: 7px">缩略图:</span>
+                            <input type="file" id="article_imageFile_file" name="article[imageFile][file]" style="display: inline-block">
+                        <span style="margin-left: 7px">推荐</span>
+                        <input type="checkbox" id="article_recommended" name="article[recommended]" required="required" value="0" style="display: inline-block">
+
+                        <script id="intro" name="article[intro]" type="text/plain" placeholder="文章简介">{% if edit is defined %}{{ product.intro|raw }}{% endif %}</script>
                         <script id="container" name="article[content]" type="text/plain"></script>
                         <button class="btn btn-instagram" type="submit">提交</button>
-                        {{ form_widget(form._token) }}
                     </form>
                 </div>
 
@@ -30,6 +35,21 @@
     {#富文本编辑器#}
     <script src="{{ asset('ueditor/ueditor.config.js') }}"></script>
     <script src="{{ asset('ueditor/ueditor.all.js') }}"></script>
+    <script type="text/javascript">
+        var ue = UE.getEditor('intro',{
+            toolbars:[
+                [
+                    'fullscreen', 'source', '|', 'undo', 'redo', '|', 'bold','italic', 'underline',
+                    'strikethrough',  'pasteplain', 'preview', 'removeformat', 'unlink','cleardoc',
+                    'fontfamily', 'fontsize', 'simpleupload', 'insertimage','link','emotion','justifyleft',
+                    'justifyright','justifycenter','justifyjustify', 'forecolor','backcolor', 'attachment',
+                    'imagecenter','autotypeset','inserttable','charts',
+
+                ]
+            ],
+            initialFrameHeight: 130
+        });
+    </script>
     <script type="text/javascript">
         var ue = UE.getEditor('container',{
             toolbars:[

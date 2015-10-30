@@ -37,25 +37,25 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $images = $em->getRepository('hkgbiWebBundle:Slider')->findBy(array(),array('sort'=>'DESC'));
         $count = count($images);
-
-
+        $article = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('recommended'=>true),array('createdAt'=>'DESC'),1);
         return $this->render('@hkgbiWeb/frontend/index.html.twig',array(
             'site_title'=>$site_title,
             'site_keywords'=>$site_keywords,
             'site_description'=>$site_description,
             'site_url'=>$site_url,
             'images'=>$images,
-            'count'=>$count
+            'count'=>$count,
+            'article'=>$article[0]
 //            'contact'=>$contact,
             // 'bottom_nav'=>$bottom_nav
         ));
     }
 
     /**
-     * @Route("module/{identifier}",name="module")
+     * @Route("module/{identifier}/{article_id}",name="module")
      * @ParamConverter("module", class="hkgbiWebBundle:Module")
      */
-    public function moduleAction(Module $module,Request $request){
+    public function moduleAction(Module $module,Request $request,$article_id=null){
         $em = $this->getDoctrine()->getManager();
         $category_list = $em->getRepository('hkgbiWebBundle:Category')->findBy(array('module'=>$module));
         $reservation = new Reservation();
@@ -66,7 +66,7 @@ class DefaultController extends Controller
             $em->flush();
             return new Response("<script>alert('您的预约已成功，请等待工作人员与您联系!');window.location.href='/';</script>");
         }
-        return $this->render('@hkgbiWeb/frontend/inner_page.html.twig',array('category_list'=>$category_list,'module'=>$module,'form'=>$form->createView()));
+        return $this->render('@hkgbiWeb/frontend/inner_page.html.twig',array('category_list'=>$category_list,'module'=>$module,'form'=>$form->createView(),'article_id'=>$article_id));
     }
 
     /**
@@ -74,7 +74,8 @@ class DefaultController extends Controller
      * @ParamConverter("category", class="hkgbiWebBundle:Category")
      */
     public function categoryAction(\hkgbi\WebBundle\Entity\Category $category){
-        $articles = $category->getArticles();
+        $em = $this->getDoctrine()->getManager();
+        $articles = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('category'=>$category),array('createdAt'=>'DESC'));
         $list = array();
         foreach($articles as $article){
             $title = $article->getTitle();
@@ -108,10 +109,10 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("module/article/{id}",name="article")
+     * @Route("getmodule/article/{id}",name="article")
      * @ParamConverter("article", class="hkgbiWebBundle:Article")
      */
-    public function getArticle(Article $article){
+    public function getArticleAction(Article $article){
         $content = $article->getContent();
         return new Response("$content");
     }
@@ -151,6 +152,12 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $banners = $em->getRepository('hkgbiWebBundle:Banner')->findAll();
         return $this->render('@hkgbiWeb/frontend/inner_banner.html.twig',array('banners'=>$banners));
+    }
+
+    public function indexCertificateAction(){
+        $em = $this->getDoctrine()->getManager();
+        $certificates = $em->getRepository('hkgbiWebBundle:Certificate')->findBy(array(),array('createdAt'=>'DESC'));
+        return $this->render('@hkgbiWeb/frontend/certificate.html.twig',array('certificates'=>$certificates));
     }
 
 }

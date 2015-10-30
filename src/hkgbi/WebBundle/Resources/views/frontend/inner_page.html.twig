@@ -10,10 +10,10 @@
             <div class="lefttop">{{ module.name }}</div>
             <div class="leftmain">
                 <ul>
-                {% set i=1 %}
-                {% if module.name=='客户服务' %}
-                    <li><a href="javascript:void(0)"  data-toggle="modal" data-target="#reservation" data-whatever="@mdo">在线预约</a></li>
-                {% endif %}
+                    {% set i=1 %}
+                    {% if module.name=='客户服务' %}
+                        <li><a href="javascript:void(0)"  data-toggle="modal" data-target="#reservation" data-whatever="@mdo">在线预约</a></li>
+                    {% endif %}
                     {% if module.name=='关于我们' %}
                         {% for article in module.articles %}
                             <li><a href="javascript:;" value="{{ article.id }}">{{ article.title }}</a></li>
@@ -41,6 +41,12 @@
                                {{ module.articles[0].getContent()|raw }}
                            {% elseif module.name=='关于我们' %}
                                {{ module.articles[0].getContent()|raw }}
+                           {% elseif module.name=='公告/动态' %}
+                               {% if article_id is not defined %}
+                               {{ render(controller('hkgbiWebBundle:frontend/Default:category',{'id':5})) }}
+                               {% else %}
+                               {{ render(controller('hkgbiWebBundle:frontend/Default:getArticle',{'id':article_id})) }}
+                               {% endif %}    {
                            {% endif %}
                        </div>
         </div>
@@ -102,7 +108,7 @@
                     var $id = $(this).attr('value');
                     var $cate_name = $(this).text();
                     $.ajax({
-                        url:"{{ app.request.baseurl }}/module/article/"+$id,
+                        url:"{{ app.request.baseurl }}/getmodule/article/"+$id,
                         success: function(data){
                             var $content = "您当前的位置是：网站首页 > " + "{{ module.name }}" +" > " +$cate_name;
                             $('.rr').html($content);
@@ -123,7 +129,7 @@
                     var $article_title = $(this).attr('title');
                     var $cate_name = $('.ll').text();
                     $.ajax({
-                        url:"{{ app.request.baseurl }}/module/article/"+$id,
+                        url:"{{ app.request.baseurl }}/getmodule/article/"+$id,
                         success: function(data){
                             var $content = "您当前的位置是：网站首页 > " + "{{ module.name }}" +" > "+$cate_name+" > " +$article_title;
                             $('.rr').html($content);

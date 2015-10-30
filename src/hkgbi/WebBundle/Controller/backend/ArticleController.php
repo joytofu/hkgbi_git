@@ -57,6 +57,8 @@ class ArticleController extends Controller
         $module_obj = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('identifier' => $identifier));
         $categories = $module_obj[0]->getCategories();
         $cate_id = null;
+        $thumb = $article->getImageFile();
+        $thumb_name = $article->getImageName();
         if($article->getCategory()){
             $cate_id = $article->getCategory()->getId();
         }
@@ -69,6 +71,11 @@ class ArticleController extends Controller
             $article->setCategory($category);
             }
 
+            //检查是否有上传缩略图动作，如无，则使用原来的图
+            if(!isset($_POST['product']['imageFile']['file'])){
+                $article->setImageName($thumb_name);
+            }
+
             $em->flush();
             $article_list_url = $this->generateUrl('article_list',array('identifier'=>$identifier));
             return new Response("<script>alert('修改成功!');window.location.href='$article_list_url'</script>");
@@ -79,7 +86,8 @@ class ArticleController extends Controller
             'id'=>$id,
             'categories'=>$categories,
             'cate_id'=>$cate_id,
-            'identifier'=>$identifier));
+            'identifier'=>$identifier,
+            'thumb'=>$thumb));
     }
 
     /**
@@ -87,6 +95,7 @@ class ArticleController extends Controller
      */
     public function articleList($identifier){
 
+        $em = $this->getDoctrine()->getManager();
         $module_obj = $this->getModuleObj($identifier);
         $module = $module_obj->getName();
         $articles_array = array();
@@ -95,10 +104,10 @@ class ArticleController extends Controller
         $categories = $module_obj->getCategories();
         if($categories[0]){
             foreach($categories as $category){
-                $articles_array[] = $category->getArticles();
+                $articles_array[] = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('category'=>$category),array('createdAt'=>'DESC'));
             }
         }else{
-            $no_cate_articles = $module_obj->getArticles();
+            $no_cate_articles = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('module'=>$module_obj),array('createdAt'=>'DESC'));
         }
 
         //$articles = $em->getRepository('hkgbiWebBundle:Article')->findBy(array('module' => $module_obj));

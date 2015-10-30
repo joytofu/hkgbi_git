@@ -8,10 +8,6 @@
 
 namespace hkgbi\WebBundle\Form;
 
-
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use hkgbi\WebBundle\Entity\Module;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
