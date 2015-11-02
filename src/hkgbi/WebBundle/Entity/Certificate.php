@@ -9,6 +9,7 @@
 namespace hkgbi\WebBundle\Entity;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -56,6 +57,11 @@ class Certificate
      */
     protected $link;
 
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    protected $updatedAt;
+
     public function __construct(){
         $this->createdAt = new \DateTime('now');
     }
@@ -84,6 +90,9 @@ class Certificate
     public function setImageFile(File $image = null)
     {
         $this->imageFile = $image;
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
     }
 
     /**

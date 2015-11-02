@@ -23,7 +23,7 @@
                         <li><a href="#d_tab2" data-toggle="tab">软件下载</a></li>
                     {% endif %}
                     {% for category in categories %}
-                        <li {% if i==1 %}class="active"{% endif %}><a href="#tab_{{ i }}" data-toggle="tab" >{{ category.getName() }}</a></li>
+                        <li><a href="#tab_{{ i }}" data-toggle="tab" >{{ category.getName() }}</a></li>
                     {% set i=i+1 %}
                     {% endfor %}
                 {% else %}
@@ -33,7 +33,7 @@
                  {% if categories[0] is defined and categories[0] is not null  %}
                  {% set j=1 %}
                  {% for  articles in articles_array%}
-                  <div class="tab-pane {% if j==1 %}active{% endif %}" id="tab_{{ j }}">
+                  <div class="tab-pane" id="tab_{{ j }}">
                      <div class="box-body">
                        <ul class="todo-list ui-sortable">
                          {% for article in articles %}

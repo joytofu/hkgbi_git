@@ -1,0 +1,38 @@
+<div class="index_3"><span style="font-size:32px;color:#ff0000;"><span style="font-family:Microsoft YaHei;"><a href="index.php?c=list&amp;cs=pros" style="color:#FF0000">精选私募</a> 额度有限 预购从速</span></span><br></div>
+<div class="index_4">
+
+    <div class="feed_l">
+        <div class="box box-solid">
+            <div class="box-body">
+        <form method="post" action="{{ path('indexReservation') }}">
+        <div class="form-group">
+        {{ form_widget(form.fund_name,{'attr':{'placeholder':'基金名称'}}) }}
+        </div>
+            <div class="form-group">
+                {{ form_widget(form.department) }}
+            </div>
+        <div class="form-group">
+        {{ form_widget(form.name,{'attr':{'placeholder':'姓名'}}) }}
+        </div>
+        <div class="form-group">
+        {{ form_widget(form.cellphone,{'attr':{'placeholder':'手机号码'}}) }}
+        </div>
+        <div class="form-group">
+        {{ form_widget(form.email,{'attr':{'placeholder':'邮箱'}}) }}
+        </div>
+        <input name="subscribe" type="checkbox" checked="checked" style="float:left; margin-top:3px; margin-right:5px;">
+        若有巨牛最新的产品服务及优惠信息，我们将会发送您的电子邮箱。
+        <input type="submit" value="立即预约" name="imageField" id="imageField" class="button red" style="float:right; margin-top: 20px;padding:15px;font-size:18px;background-color:#A90909">
+        </form>
+            </div>
+        </div>
+    </div>
+    <div class="feed_r">
+        <li><img src="{{ asset('bundles/hkgbiweb/css/w1.jpg') }}" align="left" data-bd-imgshare-binded="1"><span style="float:left;">hkgbi1699</span><img style="width:100px;height:100px" src="{{ asset('bundles/hkgbiweb/css/wechat_qrcode.jpg') }}" border="0" alt="" data-bd-imgshare-binded="1"></li>
+        <li><a href="" target="_blank"><img src="{{ asset('bundles/hkgbiweb/css/w2.jpg') }}" align="left" data-bd-imgshare-binded="1"></a></li>
+        <li><img src="{{ asset('bundles/hkgbiweb/css/w3.jpg') }}" align="left" data-bd-imgshare-binded="1"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=3122616794&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:3122616794:41" alt="联系我们" title="联系我们" rel="nofollow" data-bd-imgshare-binded="1"></a>
+            <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=3122139387&amp;site=qq&amp;menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:3122139387:41" alt="联系我们" title="联系我们" rel="nofollow" data-bd-imgshare-binded="1"></a>
+        </li>
+    </div>
+
+</div>

@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping\OneToMany;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 /**
@@ -67,6 +68,11 @@ class Product
      * @ORM\Column(type="datetime",nullable=true)
      */
     protected $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    protected $updatedAt;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -158,6 +164,9 @@ class Product
     public function setImageFile(File $image = null)
     {
         $this->imageFile = $image;
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
     }
 
     /**

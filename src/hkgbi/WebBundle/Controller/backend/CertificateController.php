@@ -8,7 +8,9 @@
 
 namespace hkgbi\WebBundle\Controller\backend;
 use hkgbi\WebBundle\Entity\Certificate;
+use hkgbi\WebBundle\Entity\Reservation;
 use hkgbi\WebBundle\Form\CertificateType;
+use hkgbi\WebBundle\Form\ReservationType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -58,6 +60,7 @@ class CertificateController extends Controller
             if(!isset($_POST['certificate']['link'])){
                 $certificate->setLink($certificate_link);
             }
+
             $em->flush();
             $redirect_url = $this->generateUrl('article_list',array('identifier'=>'certificate'));
             return new Response("<script>alert('修改成功');window.location.href='$redirect_url'</script>");
@@ -84,6 +87,23 @@ class CertificateController extends Controller
         $em->flush();
         return $this->redirectToRoute('article_list',array('identifier'=>'certificate'));
 
+    }
+
+    /**
+     * @Route("indexReservation",name="indexReservation")
+     */
+    public function indexReservationAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $reservation = new Reservation();
+        $form = $this->createForm(new ReservationType(),$reservation);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->isValid()){
+            $em->persist($reservation);
+            $em->flush();
+            $redirect_url = $this->generateUrl('frontend_index');
+            return new Response("<script>alert('恭喜您，预约成功！我们的工作人员会与您联系！');window.location.href='$redirect_url';</script>");
+        }
+        return $this->render('@hkgbiWeb/frontend/index_reservation.html.twig',array('form'=>$form->createView()));
     }
 
 }

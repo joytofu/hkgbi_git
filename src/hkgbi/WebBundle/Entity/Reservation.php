@@ -31,7 +31,7 @@ class Reservation
     protected $fund_name;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string",nullable=true)
      * @Assert\Choice(
      *    choices={"广州分部","南海分部","顺德分部","天河分部","肇庆分部","成都一部","成都二部"},
      *    message= "请选择服务分部"
