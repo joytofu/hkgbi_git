@@ -8,6 +8,7 @@
 
 namespace hkgbi\WebBundle\Controller\backend;
 
+use hkgbi\WebBundle\Controller\MyMemcached;
 use hkgbi\WebBundle\Entity\Banner;
 use hkgbi\WebBundle\Entity\Category;
 use hkgbi\WebBundle\Entity\Slider;
@@ -32,7 +33,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  */
 class AdminController extends Controller
 {
-
+    protected function mem(){
+        $mem = new MyMemcached();
+        return $mem;
+    }
 
     /**
      * @Route("",name="index")
@@ -219,6 +223,8 @@ class AdminController extends Controller
      * @Method({"POST"})
      */
     public function InMenus(Module $module){
+        $mem_obj = $this->mem();
+        $mem_obj->doDelete("menu");
         $module->setInMenus(true);
         $this->getDoctrine()->getManager()->flush();
 
@@ -231,6 +237,8 @@ class AdminController extends Controller
      * @Method({"POST"})
      */
     public function DisableInMenus(Module $module){
+        $mem_obj = $this->mem();
+        $mem_obj->doDelete("menu");
         $module->setInMenus(false);
         $this->getDoctrine()->getManager()->flush();
 

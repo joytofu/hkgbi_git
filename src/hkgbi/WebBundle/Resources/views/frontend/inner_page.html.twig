@@ -38,9 +38,11 @@
                            {% if module.name=='加入我们' %}
                                 {{ render(controller('hkgbiWebBundle:frontend/Default:JoinUsCover')) }}
                            {% elseif module.name=='客户服务' %}
-                               {{ module.articles[0].getContent()|raw }}
+                               {#{{ module.articles[0].getContent()|raw }}#}
+                               {{ content|raw }}
                            {% elseif module.name=='关于我们' %}
-                               {{ module.articles[0].getContent()|raw }}
+                               {#{{ module.articles[0].getContent()|raw }}#}
+                               {{ content|raw }}
                            {% elseif module.name=='公告/动态' %}
                                {% if article_id is not defined %}
                                {{ render(controller('hkgbiWebBundle:frontend/Default:category',{'id':5})) }}

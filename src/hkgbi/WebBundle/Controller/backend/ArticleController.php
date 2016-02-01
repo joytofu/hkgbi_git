@@ -8,6 +8,7 @@
 
 namespace hkgbi\WebBundle\Controller\backend;
 
+use hkgbi\WebBundle\Controller\MyMemcached;
 use hkgbi\WebBundle\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use hkgbi\WebBundle\Entity\Article;
@@ -24,6 +25,11 @@ use hkgbi\WebBundle\Controller\backend\ProductController;
  */
 class ArticleController extends Controller
 {
+    protected function deleteMem($key){
+        $mem = new MyMemcached($key);
+        $mem->doDelete($key);
+    }
+
     /**
      * @Route("/{identifier}/create",name="create_article")
      * @Method({"POST","GET"})
@@ -54,6 +60,15 @@ class ArticleController extends Controller
      */
     public function editArticle(Article $article,Request $request,$identifier,$id){
         $em = $this->getDoctrine()->getManager();
+
+        if($identifier == "about_us" || $identifier == "service"){
+            if($identifier == "about_us"){
+                $this->deleteMem("article_3");
+            }else{
+                $this->deleteMem("article_14");
+            }
+        }
+
         $module_obj = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('identifier' => $identifier));
         $categories = $module_obj[0]->getCategories();
         $cate_id = null;

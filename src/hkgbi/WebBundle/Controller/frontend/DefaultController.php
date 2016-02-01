@@ -17,6 +17,7 @@ use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use hkgbi\WebBundle\Entity\Module;
+use hkgbi\WebBundle\Controller\MyMemcached;
 
 
 /**
@@ -24,6 +25,19 @@ use hkgbi\WebBundle\Entity\Module;
  */
 class DefaultController extends Controller
 {
+    //操作Memcached
+    protected function mem($key,$itemFetchedFromDB){
+        $mem_obj = new MyMemcached();
+
+        if($mem_obj->doFetch($key)){
+            $item = $mem_obj->doFetch($key);
+        }else{
+            $item = $itemFetchedFromDB;
+            $mem_obj->doSave($key,$itemFetchedFromDB,0);
+        }
+        return $item;
+    }
+
     /**
      * @Route("",name="frontend_index")
      */
@@ -57,16 +71,32 @@ class DefaultController extends Controller
      */
     public function moduleAction(Module $module,Request $request,$article_id=null){
         $em = $this->getDoctrine()->getManager();
+        $content = null;
+        if($module->getIdentifier()=="about_us" || $module->getIdentifier()=="service"){
+            if($module->getIdentifier()=="about_us"){
+                $contentFromDB = $em->getRepository('hkgbiWebBundle:Article')->find(3)->getContent();
+                $content = $this->mem("article_3",$contentFromDB);
+            }else{
+                $contentFromDB = $em->getRepository('hkgbiWebBundle:Article')->find(14)->getContent();
+                $content = $this->mem("article_14",$contentFromDB);
+            }
+        }
         $category_list = $em->getRepository('hkgbiWebBundle:Category')->findBy(array('module'=>$module));
         $reservation = new Reservation();
-        $form = $this->createForm(new ReservationType(),$reservation);
-        $form->handleRequest($request);
-        if($form->isSubmitted()&&$form->isValid()){
-            $em->persist($reservation);
-            $em->flush();
-            return new Response("<script>alert('您的预约已成功，请等待工作人员与您联系!');window.location.href='/';</script>");
-        }
-        return $this->render('@hkgbiWeb/frontend/inner_page.html.twig',array('category_list'=>$category_list,'module'=>$module,'form'=>$form->createView(),'article_id'=>$article_id));
+            $form = $this->createForm(new ReservationType(),$reservation);
+            $form->handleRequest($request);
+            if($form->isSubmitted()&&$form->isValid()){
+                $em->persist($reservation);
+                $em->flush();
+                return new Response("<script>alert('您的预约已成功，请等待工作人员与您联系!');window.location.href='/';</script>");
+            }
+            return $this->render('@hkgbiWeb/frontend/inner_page.html.twig',array(
+                'category_list'=>$category_list,
+                'module'=>$module,
+                'content'=>$content,
+                'form'=>$form->createView(),
+                'article_id'=>$article_id));
+
     }
 
     /**
@@ -91,7 +121,8 @@ class DefaultController extends Controller
 
     public function navAction(){
         $em = $this->getDoctrine()->getManager();
-        $menu = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('in_menus'=>true));
+        $menuFromDB = $em->getRepository('hkgbiWebBundle:Module')->findBy(array('in_menus'=>true));
+        $menu = $this->mem("menu",$menuFromDB);
         return $this->render('@hkgbiWeb/frontend/nav.html.twig',array('menu'=>$menu));
     }
 
@@ -112,9 +143,20 @@ class DefaultController extends Controller
      * @Route("getmodule/article/{id}",name="article")
      * @ParamConverter("article", class="hkgbiWebBundle:Article")
      */
-    public function getArticleAction(Article $article){
-        $content = $article->getContent();
+    public function getArticleAction(Article $article,$id){
+        if($article->getModule()->getIdentifier() == "about_us"){
+            $mem_obj = $this->mem();
+            if($mem_obj->doFetch("article_{$id}")){
+                $content = $mem_obj->doFetch("article_{$id}");
+            }else{
+                $content = $article->getContent();
+                $mem_obj->doSave("article_{$id}",$content,0);
+            }
+        }else{
+            $content = $article->getContent();
+        }
         return new Response("$content");
+
     }
 
     public function JoinUsCoverAction(){
@@ -144,7 +186,7 @@ class DefaultController extends Controller
 
     public function indexFundAction(){
         $em = $this->getDoctrine()->getManager();
-        $products = $em->getRepository('hkgbiWebBundle:Product')->findBy(array(),array('sort'=>'DESC'),3);
+        $products= $em->getRepository('hkgbiWebBundle:Product')->findBy(array(),array('sort'=>'DESC'),3);
         return $this->render('@hkgbiWeb/frontend/index_fund.html.twig',array('products'=>$products));
     }
 
